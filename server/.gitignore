@@ -1,0 +1,11 @@
+# env file
+.env
+
+# cahce
+__pycache__
+
+# db
+db.sqlite3
+
+# data
+scraping/data
