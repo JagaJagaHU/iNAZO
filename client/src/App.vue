@@ -74,6 +74,8 @@ export default {
     name: 'App',
 
     data: () => ({
+        titleInner: 'ホーム',
+        discriptionContent: '',
         icons: [
             'mdi-email',
             'mdi-github',
@@ -81,5 +83,26 @@ export default {
             'mdi-twitter',
         ],
     }),
-};
+    head: {
+        title() {
+            return {
+                inner: this.titleInner,
+                separator: '|',
+                complement: 'HUsearch'
+            }
+        },
+        meta() { 
+            return [
+                { name: 'description', content: this.discriptionContent },
+                { property: 'og:type', content: 'website' },
+            ]
+        },
+    },
+    watch: {
+        $route(to, from) { // eslint-disable-line no-unused-vars
+            this.titleInner = this.$route.meta.title;
+            this.$emit('updateHead');
+        }
+    }
+}
 </script>

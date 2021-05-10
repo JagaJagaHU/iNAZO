@@ -213,6 +213,7 @@ export default {
         },
     },
     mounted() {
+        console.log(this.head);
         if (this.$route.fullpath != '/service') {
             this.query.page = this.$route.query.page || 1;
             this.query.ordering = this.$route.query.ordering || '';
