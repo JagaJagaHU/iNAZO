@@ -1,6 +1,16 @@
 <template>
 
 <v-container>
+
+    <div class="text-center my-10">
+        <v-pagination
+        v-model="currentPage"
+        :length="size"
+        total-visible="10"
+        @input="setPageAndGetData"
+        ></v-pagination>
+    </div>
+
     <nav class="my-10">
         <v-row>
         
@@ -34,7 +44,7 @@
           :items="gradeItems"
           label="Sort"
           v-model="query.ordering"
-          @change="filterSort"
+          @change="sort"
         ></v-select>
         </v-col>
 
@@ -67,6 +77,15 @@
         </v-card-text>
                  
     </v-card>
+
+    <div class="text-center my-10">
+        <v-pagination
+        v-model="currentPage"
+        :length="size"
+        total-visible="10"
+        @input="setPageAndGetData"
+        ></v-pagination>
+    </div>
     
 </v-container>
 
@@ -92,7 +111,7 @@ export default {
             query: {
                 'search': '',
                 'ordering': '',
-                'page': '1',
+                'page': 1,
             },
             gradeItems: [
                 {text:'新着順', value:''},
@@ -112,42 +131,48 @@ export default {
         }
     },
 
+    beforeRouteUpdate(to, from, next) {
+        // クエリなしに対応
+        this.query.page = to.query.page || 1;
+        this.query.ordering = to.query.ordering || '';
+        this.query.search = to.query.search || '';
+        window.scrollTo(0,0);
+        this.fetchAPIData(gradeURL);
+        next();
+    },
+
     methods: {
         filterSearch() {
             this.query['search'] = this.search;
-
             this.query.page = 1;
-            this.getAPIData(gradeURL);
+
+            const fullURL = this.joinQuery(this.$route.path);
+            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
         },
 
-        filterSort() {
-            
+        sort() {
             this.query.page = 1;
-            this.getAPIData(gradeURL);
+
+            const fullURL = this.joinQuery(this.$route.path);
+            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
         },
 
-        fromChild(page) {
+        setPageAndGetData(page) {
             if (page <= 0 || page > this.size) return;
-            
+            if (page == this.query.page) return;
             this.query.page = page;
-            this.getAPIData(gradeURL);
+            window.scrollTo(0,0);
+
+            const fullURL = this.joinQuery(this.$route.path);
+            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
         },
 
-        _joinQuery(url) {
-            let queryURL = "";
-            Object.keys(this.query).forEach(key => queryURL += "&" + key + "=" + this.query[key]);
-            if (url.indexOf('?') == -1){
-                queryURL = queryURL.replace("&", "?"); // 先頭の&を?に置換
-            }
-            return url + queryURL;
-        },
-
-        getAPIData(url) {
-            this.axios.get(this._joinQuery(url)).then(res => {
+        fetchAPIData(url) {
+            this.axios.get(this.joinQuery(url)).then(res => {
                 this.items.splice(0, this.items.length);
                 this.items.push(...res.data.results);
                 this.size = res.data.size;
-                this.currentPage = this.query.page;
+                this.currentPage = Number(this.query.page);
                 this.searchResultText = this.query.search;
             });
         },
@@ -176,13 +201,25 @@ export default {
                 }
                 ]
             }
-        }
+        },
+
+        joinQuery(url) {
+            let queryURL = "";
+            Object.keys(this.query).forEach(key => queryURL += "&" + key + "=" + this.query[key]);
+            if (url.indexOf('?') == -1){
+                queryURL = queryURL.replace("&", "?"); // 先頭の&を?に置換
+            }
+            return url + queryURL;
+        },
     },
     mounted() {
-        this.axios.get(gradeURL).then(res => {
-            this.items = res.data.results;
-            this.size = res.data.size;
-        });
+        if (this.$route.fullpath != '/service') {
+            this.query.page = this.$route.query.page || 1;
+            this.query.ordering = this.$route.query.ordering || '';
+            this.query.search = this.$route.query.search || '';
+        }
+
+        this.fetchAPIData(gradeURL);
     },
 }
 
