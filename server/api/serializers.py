@@ -6,5 +6,4 @@ class GradeInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GradeInfo
-        fields = '__all__'
-       
+        fields = '__all__'  

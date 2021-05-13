@@ -3,11 +3,12 @@ import json
 from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sessions.middleware import SessionMiddleware
 from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework import status
 
 from .models import GradeInfo
-from .views import GradeInfoList, GradeInfoDetail
+from .views import BookMarkDetail, BookMarkList, GradeInfoList, GradeInfoDetail
 from .serializers import GradeInfoSerializer
 from .paginations import get_num_page
 
@@ -134,3 +135,34 @@ class GradeInfoAPITest(TestCase):
         ans = [10, 11, 10]
         res = [get_num_page(inp, page_size) for inp in inputs]
         self.assertEqual(res, ans)
+
+class BookMarkTest(TestCase):
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.listView = BookMarkList.as_view()
+        self.detailView = BookMarkDetail.as_view()
+
+    def test_post_invalid_string_bookMarkID(self):
+        data = {
+            'bookMarkID' : "abc",
+        }
+        request = self.factory.post('/api/bookmark/', data)
+        response = self.listView(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_post_invalid_none_bookMarkID(self):
+        data = {}
+        request = self.factory.post('/api/bookmark/', data)
+        response = self.listView(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_post_valid_bookMarkID(self):
+        data = {
+            'bookMarkID' : "123",
+        }
+        request = self.factory.post('/api/bookmark/', data)
+        SessionMiddleware().process_request(request)
+        request.session.save()
+        response = self.listView(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
