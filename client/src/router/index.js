@@ -11,16 +11,16 @@ const routes = [
     meta: { title: 'ホーム', desc: 'ホームページ' },
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
-    meta: { title: 'About', desc: 'HUsearchについて' },
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
+    meta: { title: '成績分布検索システム', desc: '績分布検索システムを利用可能' },
   },
   {
-    path: '/service',
-    name: 'service',
-    component: () => import('../views/Service.vue'),
-    meta: { title: '成績分布検索システム', desc: '績分布検索システムを利用可能' },
+    path: '*',
+    name: '404',
+    component: () => import('../views/404.vue'),
+    meta: { title: 'このページは存在しません。', desc: '404 not found.' },
   }
 ]
 

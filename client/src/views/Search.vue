@@ -2,56 +2,79 @@
 
 <v-container>
 
-    <div class="text-center my-10">
-        <v-pagination
-        v-model="currentPage"
-        :length="size"
-        total-visible="10"
-        @input="setPageAndGetData"
-        ></v-pagination>
-    </div>
-
-    <nav class="my-10">
-        <v-row>
+    <!-- pagination -->
+    <v-row>
+    <v-col>
         
-        <v-col
-          cols="6"
-          md="4"
-        >
+        <div class="text-center my-10">
+            <v-pagination
+            v-model="currentPage"
+            :length="size"
+            :total-visible="totalVisible"
+            @input="setPageAndGetData"
+            ></v-pagination>
+        </div>
+
+    </v-col>  
+    </v-row>
+
+    <!-- 表示・検索機能 -->
+    <v-row>
+    <v-col
+    class="mx-5 mx-sm-0"
+    cols="6"
+    md="4"
+    >
         <v-text-field
-            :counter="30"
+            :counter="100"
             v-model='search'
             @keydown.enter="filterSearch"
             label="Search"
             required
         ></v-text-field>
         
-        </v-col>
-        <v-col
-          cols="6"
-          md="4"
-        >
+    </v-col>
+
+    <v-col
+    cols="4"
+    md="4"
+    >
         <v-btn color="green" elevation="2" @click='filterSearch' dark>Search</v-btn>
-        </v-col>
+    </v-col>
 
-        <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
 
-        <v-col
-          cols="3"
-          md="2"
-        >
+    <v-col
+    class="mx-5 mx-sm-0"
+    cols="6"
+    sm="1">
+    
+        <v-select
+            :items="gridItems"
+            label="grid"
+            v-model="chartGridCol"
+        ></v-select>
+
+    </v-col>
+
+    <v-col
+    class="mx-5 mx-sm-0"
+    cols="6"
+    sm="2"
+    >
         <v-select
           :items="gradeItems"
           label="Sort"
           v-model="query.ordering"
           @change="sort"
         ></v-select>
-        </v-col>
+    </v-col>
+    </v-row>
 
-        </v-row>
-        
-    </nav>
-
+    <!-- 検索結果 -->
+    <v-row>
+    <v-col>
+    
     <v-alert
     type="success"
     v-if='searchResultText'
@@ -59,7 +82,14 @@
     検索結果：{{searchResultText}}
     </v-alert>
 
-    <v-card class="my-5" v-for="item in items" :key="item.id" flat outlined>
+    </v-col>
+    </v-row>
+
+    <!-- main cards -->
+    <v-row>
+    <v-col :cols="chartGridCol" v-for="item in items" :key="item.id">
+    
+    <v-card class="my-5" flat outlined>
         <v-card-title v-if='item.subject == " "'> {{item.lecture}} </v-card-title>
         <v-card-title v-else> {{item.subject}} &emsp; {{item.lecture}} </v-card-title>
 
@@ -75,17 +105,26 @@
         <v-card-text>
             <BarChart :chartData="getChartData(item)"></BarChart>  
         </v-card-text>
-                 
     </v-card>
 
+    </v-col>
+    </v-row>
+
+    <!-- pagination -->
+    <v-row>
+    <v-col>
+    
     <div class="text-center my-10">
         <v-pagination
         v-model="currentPage"
         :length="size"
-        total-visible="10"
+        :total-visible="totalVisible"
         @input="setPageAndGetData"
         ></v-pagination>
     </div>
+
+    </v-col>
+    </v-row>
     
 </v-container>
 
@@ -100,14 +139,15 @@ export default {
     components: {
         BarChart,
     },
-
     data() {
         return {
             items : [],
             currentPage: 1,
+            totalVisible: null, 
             size: null,
             search: '',
             searchResultText: null,
+            chartGridCol: 12,
             query: {
                 'search': '',
                 'ordering': '',
@@ -127,10 +167,13 @@ export default {
                 {text:'D-', value:'-dm'},
                 {text:'F', value:'-f'},
                 {text:'GPA', value:'-gpa'},
-            ]
+            ],
+            gridItems: [
+                {text:'1列', value:12},
+                {text:'２列', value:6},
+            ],
         }
     },
-
     beforeRouteUpdate(to, from, next) {
         // クエリなしに対応
         this.query.page = to.query.page || 1;
@@ -140,7 +183,6 @@ export default {
         this.fetchAPIData(gradeURL);
         next();
     },
-
     methods: {
         filterSearch() {
             this.query['search'] = this.search;
@@ -212,14 +254,16 @@ export default {
             return url + queryURL;
         },
     },
+    created() {
+        // 画面サイズがxsなら表示個数を減らす
+        this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
+    },
     mounted() {
-        console.log(this.head);
         if (this.$route.fullpath != '/service') {
             this.query.page = this.$route.query.page || 1;
             this.query.ordering = this.$route.query.ordering || '';
             this.query.search = this.$route.query.search || '';
         }
-
         this.fetchAPIData(gradeURL);
     },
 }
