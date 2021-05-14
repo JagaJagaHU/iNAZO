@@ -80,17 +80,15 @@
     <p class="text-h3 text-center my-10">Q&A</p>
 
     <div class="my-16">
-    <p class="text-h6 font-weight-bold">・大学公認ですか？</p>
+    <p class="text-h6 font-weight-bold">・大学公認なの？</p>
     <p class="text-h6">いいえ、非公認です。今後大学側に確認を取るかもしれません。</p>
     </div>
 
     <div class="my-16">
-    <p class="text-h6 font-weight-bold">・ソート機能は楽単探しの助長になるのでは？</p>
+    <p class="text-h6 font-weight-bold">バグを見つけたらどうすればいい？</p>
     <p class="text-h6">
-    総合文系・理系は行きたい学部に行くために高い移行点が必要になるかもしれません。
-    もちろん、楽単探しを積極的お勧めするわけではありません。しかし複数の受けたい講義
-    があり、かつ成績も必要であればそのうち比較的gpaが高い講義を選ぶ可能性が高いと思われます。
-    ソート機能はそのような選択の助けになることを望んでいます。
+    見つけたバグを以下のGoogle Formに書いて送信してください。
+    機能追加や要望も受け付けます。
     </p>
     </div>
 

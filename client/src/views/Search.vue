@@ -45,7 +45,7 @@
     <v-spacer></v-spacer>
 
     <v-col
-    class="mx-5 mx-sm-0"
+    class="d-none d-sm-flex mx-5 mx-sm-0"
     cols="6"
     sm="1">
     
@@ -71,9 +71,28 @@
     </v-col>
     </v-row>
 
-    <!-- 検索結果 -->
+    <!-- bookmark btn -->
+    <v-row>
+    <v-col
+    class="mx-5 mx-sm-0"
+    cols="6"
+    sm="1">
+
+    <v-btn @click="fetchBookMarkAPIData">BOOKMARK</v-btn>
+    
+    </v-col>
+    </v-row>
+
+    <!-- Alert-->
     <v-row>
     <v-col>
+
+    <v-alert
+    type="primary"
+    v-if='isActiveBookMarkView'
+    >
+    あなたのブックマーク一覧
+    </v-alert>
     
     <v-alert
     type="success"
@@ -87,13 +106,18 @@
 
     <!-- main cards -->
     <v-row>
-    <v-col :cols="chartGridCol" v-for="item in items" :key="item.id">
-    
+    <v-col :cols="chartGridCol" v-for="item, index in items" :key="item.id">
     <v-card class="my-5" flat outlined>
+
         <v-card-title v-if='item.subject == " "'> {{item.lecture}} </v-card-title>
         <v-card-title v-else> {{item.subject}} &emsp; {{item.lecture}} </v-card-title>
 
         <v-card-text>
+            <Star
+            :active="item.isBookMark"
+            @click="postBookMark(index)"
+            >
+            </Star>
             <p class="card-text">{{item.year}}年度 {{item.semester}}</p>
             <p class="card-text">開講学部：{{item.faculty}}</p>
             <p class="card-text">クラス：{{item.group}}</p>
@@ -132,22 +156,31 @@
 
 <script>
 import BarChart from '../components/BarChart.vue'
+import Star from '../components/Star.vue'
 
 let gradeURL = 'http://localhost:8001/api/gradeinfo/';
+let bookmarkURL = 'http://localhost:8001/api/bookmark/';
+
+const HTTP_201_CREATED = 201;
+const HTTP_204_NO_CONTENT = 204;
 
 export default {
     components: {
         BarChart,
+        Star,
     },
     data() {
         return {
-            items : [],
+            items: [],
+            isActiveBookMarkView: false,
+            bookMarkIDs: [],
             currentPage: 1,
             totalVisible: null, 
             size: null,
             search: '',
             searchResultText: null,
             chartGridCol: 12,
+            bookmark: false,
             query: {
                 'search': '',
                 'ordering': '',
@@ -175,28 +208,30 @@ export default {
         }
     },
     beforeRouteUpdate(to, from, next) {
+        this.isActiveBookMarkView = false;
         // クエリなしに対応
         this.query.page = to.query.page || 1;
         this.query.ordering = to.query.ordering || '';
         this.query.search = to.query.search || '';
         window.scrollTo(0,0);
-        this.fetchAPIData(gradeURL);
+        this.fetchGradeAPIData();
         next();
     },
     methods: {
         filterSearch() {
+            
             this.query['search'] = this.search;
             this.query.page = 1;
 
             const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
+            this.$router.push(fullURL).catch(err => {console.log(err)});
         },
 
         sort() {
             this.query.page = 1;
 
             const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
+            this.$router.push(fullURL).catch(err => {console.log(err)});
         },
 
         setPageAndGetData(page) {
@@ -207,16 +242,6 @@ export default {
 
             const fullURL = this.joinQuery(this.$route.path);
             this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
-        },
-
-        fetchAPIData(url) {
-            this.axios.get(this.joinQuery(url)).then(res => {
-                this.items.splice(0, this.items.length);
-                this.items.push(...res.data.results);
-                this.size = res.data.size;
-                this.currentPage = Number(this.query.page);
-                this.searchResultText = this.query.search;
-            });
         },
 
         getChartData(item) {
@@ -253,18 +278,96 @@ export default {
             }
             return url + queryURL;
         },
+
+        async postBookMark(index) {
+            let item = this.items[index];
+            let bookMarkID = item.id;
+
+            if (item.isBookMark) {
+                // ブックマーク解除
+                let res = await this.axios.delete(bookmarkURL + `${bookMarkID}/`, {
+                    withCredentials: true
+                });
+                if (res.status == HTTP_204_NO_CONTENT) {
+                    this.bookMarkIDs = this.bookMarkIDs.filter(id => id != bookMarkID);
+                    item.isBookMark = !item.isBookMark;
+                    this.$set(this.items, index, item);
+                }
+            } else {
+                // 登録
+                let res = await this.axios.post(bookmarkURL, {'bookMarkID':bookMarkID}, {
+                    withCredentials: true
+                });
+                
+                if (res.status == HTTP_201_CREATED) {
+                    this.bookMarkIDs = res.data.bookMarkIDs;
+                    item.isBookMark = !item.isBookMark;
+                    this.$set(this.items, index, item);
+                }
+            }
+        },
+
+        async fetchGradeAPIData() {
+
+            let res = await this.axios.get(this.joinQuery(gradeURL), {
+                withCredentials: true
+            });
+
+            // chartを更新
+            this.items.splice(0, this.items.length);
+            this.items.push(...res.data.results);
+            this.size = res.data.size;
+            this.currentPage = Number(this.query.page);
+            this.searchResultText = this.query.search;
+
+            // 取得したデータがブックマークされているか確認
+            this.items.map(item => {
+                item.isBookMark =  this.bookMarkIDs.includes(item.id);
+            });
+        },
+
+        async fetchBookMarkAPIData() {
+            if (this.isActiveBookMarkView) return;
+
+            this.searchResultText = '';
+
+            let res = await this.axios.get(bookmarkURL, {
+                withCredentials: true
+            });
+
+            this.isActiveBookMarkView = true;
+            this.currentPage = 0;
+
+            this.items.splice(0, this.items.length);
+            this.items.push(...res.data);
+
+            // 取得したデータがブックマークされているか確認
+            this.items.map(item => {
+                item.isBookMark =  this.bookMarkIDs.includes(item.id);
+            });
+        },
+
+        // ページに訪れた時のみに使用
+        async initBookMarAPIdata() {
+            let res = await this.axios.get(bookmarkURL, {
+                withCredentials: true
+            });
+            this.bookMarkIDs = res.data.map(item => item.id);
+        }
     },
     created() {
         // 画面サイズがxsなら表示個数を減らす
         this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
     },
-    mounted() {
+    async mounted() {
         if (this.$route.fullpath != '/service') {
             this.query.page = this.$route.query.page || 1;
             this.query.ordering = this.$route.query.ordering || '';
             this.query.search = this.$route.query.search || '';
         }
-        this.fetchAPIData(gradeURL);
+        // 初期取得はbookmarkを始めにfetchする。
+        await this.initBookMarAPIdata();
+        await this.fetchGradeAPIData();
     },
 }
 
