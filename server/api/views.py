@@ -11,12 +11,13 @@ from .models import GradeInfo
 from .permissions import ReadOnly
 from .forms import BookMarkForm
 
+
 class GradeInfoList(generics.ListCreateAPIView):
 
     queryset = GradeInfo.objects.all()
     serializer_class = GradeInfoSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    permission_classes = [IsAdminUser|ReadOnly]
+    permission_classes = [IsAdminUser | ReadOnly]
     search_fields = [
         'subject', 'lecture', 'group', 'teacher', 'year', 'semester',
         'faculty',
@@ -24,11 +25,13 @@ class GradeInfoList(generics.ListCreateAPIView):
     ordering_fields = '__all__'
     ordering = ['-year', 'semester']
 
+
 class GradeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = GradeInfo.objects.all()
     serializer_class = GradeInfoSerializer
-    permission_classes = [IsAdminUser|ReadOnly]
+    permission_classes = [IsAdminUser | ReadOnly]
+
 
 class BookMarkList(APIView):
 
@@ -37,7 +40,7 @@ class BookMarkList(APIView):
         gradeInfoList = GradeInfo.objects.filter(pk__in=bookMarkIDs)
         serializer = GradeInfoSerializer(gradeInfoList, many=True)
         return Response(serializer.data)
-    
+
     def post(self, request, format=None):
 
         form = BookMarkForm(request.data)
@@ -51,13 +54,13 @@ class BookMarkList(APIView):
             request.session['bookMarkIDs'] = bookMarkIDs
         else:
             bookMarkIDs = request.session['bookMarkIDs']
-        
+
         if bookMarkID in bookMarkIDs:
             error = {
                 'detail': 'このbookMarkIDは既に登録されています。'
             }
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
-        
+
         request.session['bookMarkIDs'].append(bookMarkID)
         # sessionの変更を伝える
         request.session.modified = True
@@ -65,11 +68,12 @@ class BookMarkList(APIView):
             'bookMarkIDs': request.session['bookMarkIDs'],
         }
         return Response(context, status=status.HTTP_201_CREATED)
-    
+
     # bookmark dataを全て削除
     def delete(self, request, format=None):
         request.session['bookMarkIDs'] = []
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class BookMarkDetail(APIView):
 
@@ -77,13 +81,12 @@ class BookMarkDetail(APIView):
         if not request.session.get('bookMarkIDs'):
             bookMarkIDs = []
             request.session['bookMarkIDs'] = bookMarkIDs
-        
+
         try:
             request.session['bookMarkIDs'].remove(pk)
             # sessionの変更を伝える
             request.session.modified = True
         except ValueError:
             raise Http404
-        
+
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
