@@ -1,34 +1,38 @@
 <template>
-
-<v-footer color="primary" padless dark app absolute>
-    <v-card
-        flat
-        tile
-        width="100%"
+    <v-footer
         color="primary"
-        class="lighten-1 text-center"
+        padless
+        dark
+        app
+        absolute
     >
-        <v-card-text>
-        <v-btn
-            v-for="icon in icons"
-            :key="icon"
-            class="mx-4"
-            icon
+        <v-card
+            flat
+            tile
+            width="100%"
+            color="primary"
+            class="lighten-1 text-center"
         >
-            <v-icon size="24px">
-            {{ icon }}
-            </v-icon>
-        </v-btn>
-        </v-card-text>
+            <v-card-text>
+                <v-btn
+                    v-for="icon in icons"
+                    :key="icon"
+                    class="mx-4"
+                    icon
+                >
+                    <v-icon size="24px">
+                        {{ icon }}
+                    </v-icon>
+                </v-btn>
+            </v-card-text>
 
-        <v-divider></v-divider>
+            <v-divider />
 
-        <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>HUsearch</strong>
-        </v-card-text>
-    </v-card>
-</v-footer>
-
+            <v-card-text class="white--text">
+                {{ new Date().getFullYear() }} — <strong>HUsearch</strong>
+            </v-card-text>
+        </v-card>
+    </v-footer>
 </template>
 
 <script>
@@ -41,8 +45,8 @@ export default {
                 'mdi-facebook',
                 'mdi-twitter',
             ],
-        }
+        };
     }
-}
+};
 
 </script>

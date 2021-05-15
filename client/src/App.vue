@@ -1,17 +1,16 @@
 <template>
-
     <v-app>
-        
-        <Header></Header>
-        
-        <v-main class="my-10" app>
-            <router-view/>
+        <Header />
+
+        <v-main
+            class="my-10"
+            app
+        >
+            <router-view />
         </v-main>
 
-        <Footer></Footer>
-
+        <Footer />
     </v-app>
-
 </template>
 
 <script>
@@ -28,26 +27,26 @@ export default {
         titleInner: 'ホーム',
         discriptionContent: '',
     }),
+    watch: {
+        $route(to, from) { // eslint-disable-line no-unused-vars
+            this.titleInner = this.$route.meta.title;
+            this.$emit('updateHead');
+        }
+    },
     head: {
         title() {
             return {
                 inner: this.titleInner,
                 separator: '|',
                 complement: 'HUsearch'
-            }
+            };
         },
-        meta() { 
+        meta() {
             return [
                 { name: 'description', content: this.discriptionContent },
                 { property: 'og:type', content: 'website' },
-            ]
+            ];
         },
-    },
-    watch: {
-        $route(to, from) { // eslint-disable-line no-unused-vars
-            this.titleInner = this.$route.meta.title;
-            this.$emit('updateHead');
-        }
     }
-}
+};
 </script>
