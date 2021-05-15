@@ -1,6 +1,8 @@
-import json 
+import json
 
 # ensure_asciiをFalseにする。 jsonstreamsの仕様上この方法でしている。
+
+
 class EnsureAsciiFalseEncoder(json.JSONEncoder):
 
     def __init__(self, *args, **kwargs):
