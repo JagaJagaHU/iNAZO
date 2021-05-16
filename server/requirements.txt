@@ -4,7 +4,12 @@ Django==3.1.7
 django-cors-headers==3.7.0
 django-environ==0.4.5
 djangorestframework==3.12.4
+flake8==3.9.2
 jsonstreams==0.6.0
+mccabe==0.6.1
+pep8==1.7.1
+pycodestyle==2.7.0
+pyflakes==2.3.1
 pytz==2021.1
 selenium==3.141.0
 six==1.16.0
