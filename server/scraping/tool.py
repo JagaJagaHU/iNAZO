@@ -9,6 +9,7 @@ import chromedriver_binary  # noqa
 
 from scraping import table
 
+# 旧GPAは未対応
 
 HOME_URL = "http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
 RESULT_URL = "http://educate.academic.hokudai.ac.jp/seiseki/GradeDistResult11.aspx"
@@ -82,11 +83,15 @@ class GradeScraping:
             item['numOfStudents'] = int(numOfStudents)
 
             sumNum = 0
-            for idx in range(len(grades)):
-                percent = float(tds[6 + idx].text)
-                item[grades[idx]] = round(
-                    percent * item['numOfStudents'] / 100)
-                sumNum += item[grades[idx]]
+            try:
+                for idx in range(len(grades)):
+                    percent = float(tds[6 + idx].text)
+
+                    item[grades[idx]] = round(
+                        percent * item['numOfStudents'] / 100)
+                    sumNum += item[grades[idx]]
+            except ValueError:  # 旧GPAはスキップ
+                continue
 
             # 履修者数と合計が合うか確認
             try:
