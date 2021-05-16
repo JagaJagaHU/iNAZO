@@ -5,7 +5,7 @@ export default {
     extends: Bar,
     mixins: [mixins.reactiveProp],
     props: {
-        charData: {
+        chartData: {
             type: Object,
             required: true,
         },

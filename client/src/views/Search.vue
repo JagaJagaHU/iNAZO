@@ -171,8 +171,10 @@
 import BarChart from '../components/BarChart.vue';
 import Star from '../components/Star.vue';
 
-let gradeURL = 'http://localhost:8001/api/gradeinfo/';
-let bookmarkURL = 'http://localhost:8001/api/bookmark/';
+const protocol = process.env.VUE_APP_PROTOCOL;
+const origin = process.env.VUE_APP_ORIGIN;
+const gradeURL = `${protocol}://${origin}/api/gradeinfo/`;
+const bookmarkURL = `${protocol}://${origin}/api/bookmark/`;
 
 const HTTP_201_CREATED = 201;
 const HTTP_204_NO_CONTENT = 204;
