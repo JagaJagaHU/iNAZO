@@ -10,13 +10,14 @@ from .serializers import GradeInfoSerializer
 from .models import GradeInfo
 from .permissions import ReadOnly
 from .forms import BookMarkForm
+from .orderings import OrderingFilter
 
 
 class GradeInfoList(generics.ListCreateAPIView):
 
     queryset = GradeInfo.objects.all()
     serializer_class = GradeInfoSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.SearchFilter, OrderingFilter]
     permission_classes = [IsAdminUser | ReadOnly]
     search_fields = [
         'subject', 'lecture', 'group', 'teacher', 'year', 'semester',
