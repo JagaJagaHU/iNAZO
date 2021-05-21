@@ -3,14 +3,13 @@
         <!-- pagination -->
         <v-row>
             <v-col>
-                <div class="text-center my-10">
-                    <v-pagination
-                        v-model="currentPage"
-                        :length="size"
-                        :total-visible="totalVisible"
-                        @input="setPageAndGetData"
-                    />
-                </div>
+                <Pagination
+                    :size="size"
+                    :total-visible="totalVisible"
+                    :current-page="currentPage"
+                    @updatePage="setPageAndGetData"
+                    @input="page => currentPage = page"
+                />
             </v-col>
         </v-row>
 
@@ -134,14 +133,13 @@
         <!-- pagination -->
         <v-row>
             <v-col>
-                <div class="text-center my-10">
-                    <v-pagination
-                        v-model="currentPage"
-                        :length="size"
-                        :total-visible="totalVisible"
-                        @input="setPageAndGetData"
-                    />
-                </div>
+                <Pagination
+                    :size="size"
+                    :total-visible="totalVisible"
+                    :current-page="currentPage"
+                    @updatePage="setPageAndGetData"
+                    @input="page => currentPage = page"
+                />
             </v-col>
         </v-row>
     </v-container>
@@ -150,6 +148,7 @@
 <script>
 import BarChart from '../components/BarChart.vue';
 import Star from '../components/Star.vue';
+import Pagination from '../components/search/Pagination.vue';
 
 const protocol = process.env.VUE_APP_PROTOCOL;
 const origin = process.env.VUE_APP_ORIGIN;
@@ -163,14 +162,15 @@ export default {
     components: {
         BarChart,
         Star,
+        Pagination,
     },
     data() {
         return {
             items: [],
             bookMarkIDs: [],
             currentPage: 1,
-            totalVisible: null,
-            size: null,
+            totalVisible: 0,
+            size: 0,
             search: '',
             searchResultText: null,
             chartGridCol: 12,
