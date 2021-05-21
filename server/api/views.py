@@ -24,7 +24,7 @@ class GradeInfoList(generics.ListCreateAPIView):
         'faculty',
     ]
     ordering_fields = '__all__'
-    ordering = ['-year', 'semester']
+    ordering = ['-year', '-semester']
 
 
 class GradeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -36,9 +36,19 @@ class GradeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class BookMarkList(APIView):
 
+    ordering_fields = [
+        'ap', 'a', 'am',
+        'bp', 'b', 'bm',
+        'cp', 'c', 'd',
+        'dm', 'f', 'gpa',
+        'year', 'semester',
+    ]
+    ordering = ['-year', '-semester']
+
     def get(self, request, format=None):
         bookMarkIDs = request.session.get('bookMarkIDs', [])
         gradeInfoList = GradeInfo.objects.filter(pk__in=bookMarkIDs)
+        gradeInfoList = OrderingFilter().filter_queryset(request, gradeInfoList, self)
         serializer = GradeInfoSerializer(gradeInfoList, many=True)
         return Response(serializer.data)
 

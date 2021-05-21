@@ -1,49 +1,7 @@
 <template>
     <v-container>
-        <!-- pagination -->
-        <v-row>
-            <v-col>
-                <div class="text-center my-10">
-                    <v-pagination
-                        v-model="currentPage"
-                        :length="size"
-                        :total-visible="totalVisible"
-                        @input="setPageAndGetData"
-                    />
-                </div>
-            </v-col>
-        </v-row>
-
         <!-- 表示・検索機能 -->
         <v-row>
-            <v-col
-                class="mx-5 mx-sm-0"
-                cols="6"
-                md="4"
-            >
-                <v-text-field
-                    v-model="search"
-                    :counter="100"
-                    label="Search"
-                    required
-                    @keydown.enter="filterSearch"
-                />
-            </v-col>
-
-            <v-col
-                cols="4"
-                md="4"
-            >
-                <v-btn
-                    color="green"
-                    elevation="2"
-                    dark
-                    @click="filterSearch"
-                >
-                    Search
-                </v-btn>
-            </v-col>
-
             <v-spacer />
 
             <v-col
@@ -72,18 +30,16 @@
             </v-col>
         </v-row>
 
-        <!-- Alert-->
         <v-row>
             <v-col>
                 <v-alert
-                    v-if="searchResultText"
-                    type="success"
+                    color="blue"
+                    type="info"
                 >
-                    検索結果：{{ searchResultText }}
+                    あなたのブックマーク一覧
                 </v-alert>
             </v-col>
         </v-row>
-
         <!-- main cards -->
         <v-row>
             <v-col
@@ -130,20 +86,6 @@
                 </v-card>
             </v-col>
         </v-row>
-
-        <!-- pagination -->
-        <v-row>
-            <v-col>
-                <div class="text-center my-10">
-                    <v-pagination
-                        v-model="currentPage"
-                        :length="size"
-                        :total-visible="totalVisible"
-                        @input="setPageAndGetData"
-                    />
-                </div>
-            </v-col>
-        </v-row>
     </v-container>
 </template>
 
@@ -153,7 +95,6 @@ import Star from '../components/Star.vue';
 
 const protocol = process.env.VUE_APP_PROTOCOL;
 const origin = process.env.VUE_APP_ORIGIN;
-const gradeURL = `${protocol}://${origin}/api/gradeinfo/`;
 const bookmarkURL = `${protocol}://${origin}/api/bookmark/`;
 
 const HTTP_201_CREATED = 201;
@@ -168,17 +109,7 @@ export default {
         return {
             items: [],
             bookMarkIDs: [],
-            currentPage: 1,
-            totalVisible: null,
-            size: null,
-            search: '',
-            searchResultText: null,
             chartGridCol: 12,
-            query: {
-                'search': '',
-                'ordering': '',
-                'page': 1,
-            },
             sortItems: [
                 {text: '新着順', value: ''},
                 {text: 'A+', value: '-ap'},
@@ -198,56 +129,28 @@ export default {
                 {text: '1列', value: 12},
                 {text: '２列', value: 6},
             ],
+            query: {
+                'ordering': '',
+            },
         };
-    },
-    beforeRouteUpdate(to, from, next) {
-        // クエリなしに対応
-        this.query.page = to.query.page || 1;
-        this.query.ordering = to.query.ordering || '';
-        this.query.search = to.query.search || '';
-        window.scrollTo(0, 0);
-        this.fetchGradeAPIData();
-        next();
-    },
-    created() {
-        // 画面サイズがxsなら表示個数を減らす
-        this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
     },
     async mounted() {
         if (this.$route.fullpath != '/service') {
-            this.query.page = this.$route.query.page || 1;
             this.query.ordering = this.$route.query.ordering || '';
-            this.query.search = this.$route.query.search || '';
         }
-        // 初期取得はbookmarkを始めにfetchする。
-        await this.fetchBookmarkAPIdata();
-        await this.fetchGradeAPIData();
+        await this.fetchBookmarkAPIData();
+    },
+    beforeRouteUpdate(to, from, next) {
+        // クエリなしに対応
+        this.query.ordering = to.query.ordering || '';
+        window.scrollTo(0, 0);
+        this.fetchBookmarkAPIData();
+        next();
     },
     methods: {
-        filterSearch() {
-
-            this.query['search'] = this.search;
-            this.query.page = 1;
-
-            const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => { console.log(err); });
-        },
-
         sort() {
-            this.query.page = 1;
-
             const fullURL = this.joinQuery(this.$route.path);
             this.$router.push(fullURL).catch(err => { console.log(err); });
-        },
-
-        setPageAndGetData(page) {
-            if (page <= 0 || page > this.size) return;
-            if (page == this.query.page) return;
-            this.query.page = page;
-            window.scrollTo(0, 0);
-
-            const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
         },
 
         joinQuery(url) {
@@ -287,30 +190,21 @@ export default {
             }
         },
 
-        async fetchGradeAPIData() {
-            const res = await this.axios.get(this.joinQuery(gradeURL), {
+        async fetchBookmarkAPIData() {
+
+            const res = await this.axios.get(this.joinQuery(bookmarkURL), {
                 withCredentials: true
             });
 
-            // chartを更新
             this.items.splice(0, this.items.length);
-            this.items.push(...res.data.results);
-            this.size = res.data.size;
-            this.currentPage = Number(this.query.page);
-            this.searchResultText = this.query.search;
+            this.items.push(...res.data);
 
-            // 取得したデータがブックマークされているか確認
+            // 取得したデータがブックマーク
+            this.bookMarkIDs = res.data.map(item => item.id);
             this.items.map(item => {
                 item.isBookMark = this.bookMarkIDs.includes(item.id);
             });
-        },
-
-        // ページに訪れた時のみに使用
-        async fetchBookmarkAPIdata() {
-            const res = await this.axios.get(bookmarkURL, {
-                withCredentials: true
-            });
-            this.bookMarkIDs = res.data.map(item => item.id);
+            
         },
 
         getChartData(item) {
@@ -338,7 +232,6 @@ export default {
                 ]
             };
         },
-    },
+    }
 };
-
 </script>

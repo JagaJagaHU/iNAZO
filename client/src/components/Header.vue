@@ -25,16 +25,23 @@
 
                 <!-- PC用 -->
                 <v-col
-                    cols="1"
-                    class="d-none d-sm-flex"
+                    cols="4"
+                    class="d-none d-sm-flex justify-end"
                 >
                     <v-toolbar-items>
                         <v-btn
                             to="/search"
                             text
                         >
-                            <v-icon>mdi-magnify</v-icon>
-                            <span class="mr-2">search</span>
+                            <span class="mr-2">
+                                <v-icon class="mr-1">mdi-magnify</v-icon>search
+                            </span>
+                        </v-btn>
+                        <v-btn
+                            to="/bookmark"
+                            text
+                        >
+                            <span class="mr-2"><v-icon class="mr-1 mb-1">mdi-star-outline</v-icon>bookmark</span>
                         </v-btn>
                     </v-toolbar-items>
                 </v-col>
@@ -89,6 +96,7 @@ export default {
         return {
             menuItems: [
                 {title: 'Search', link: '/search', icon: 'mdi-magnify'},
+                {title: 'Bookmark', link: '/bookmark', icon: 'mdi-star-outline'},
             ]
         };
     }
