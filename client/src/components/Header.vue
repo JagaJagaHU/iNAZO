@@ -17,7 +17,7 @@
                         to="/"
                         text
                     >
-                        HUsearch
+                        iNAZO
                     </v-btn>
                 </v-col>
 

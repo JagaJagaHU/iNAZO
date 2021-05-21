@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'HUsearch.urls'
+ROOT_URLCONF = 'iNAZO.urls'
 
 TEMPLATES = [
     {
@@ -65,7 +65,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'HUsearch.wsgi.application'
+WSGI_APPLICATION = 'iNAZO.wsgi.application'
 
 
 # Database

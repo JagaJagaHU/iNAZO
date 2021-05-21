@@ -38,7 +38,7 @@ export default {
             return {
                 inner: this.titleInner,
                 separator: '|',
-                complement: 'HUsearch'
+                complement: 'iNAZO'
             };
         },
         meta() {

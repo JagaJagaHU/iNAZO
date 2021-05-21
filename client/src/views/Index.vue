@@ -21,7 +21,7 @@
                                 北大成績分布公開サービス
                             </p>
                             <p class="text-h3 text-sm-h1 ml-sm-5 font-weight-thin mb-4">
-                                HUsearch
+                                iNAZO
                             </p>
                             <v-btn
                                 class="px-sm-10 py-sm-10 mt-5"
@@ -40,7 +40,7 @@
                     class="text-h4 text-sm-h3 text-center"
                     style="margin: 10rem 0rem 5rem"
                 >
-                    HUsearchとは？
+                    iNAZOとは？
                 </p>
                 <p class="text-h6 text-center">
                     北海道大学が公開している成績データをグラフで明解に表示します。

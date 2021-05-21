@@ -29,7 +29,7 @@
             <v-divider />
 
             <v-card-text class="white--text">
-                {{ new Date().getFullYear() }} — <strong>HUsearch</strong>
+                {{ new Date().getFullYear() }} — <strong>iNAZO</strong>
             </v-card-text>
         </v-card>
     </v-footer>
