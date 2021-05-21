@@ -1,6 +1,6 @@
 <template>
     <v-btn
-        class="px-5 py-10"
+        class="px-5 py-5 mx-sm-10 my-sm-10 star"
         icon
         :color="color"
         x-large
@@ -24,3 +24,9 @@ export default {
     }
 };
 </script>
+
+<style>
+.star {
+    border: 3px solid;
+}
+</style>
