@@ -9,7 +9,7 @@ node_modules
 
 # dev & prod env file
 .env.prod
-.env.dev
+.env.development
 
 # Log files
 npm-debug.log*
