@@ -13,12 +13,10 @@
             </v-col>
         </v-row>
 
-        <!-- 表示・検索機能 -->
-        <v-row>
+        <!-- 表示・検索機能 PC -->
+        <v-row class="d-none d-sm-flex">
             <v-col
-                class="mx-5 mx-sm-0"
-                cols="6"
-                md="4"
+                cols="4"
             >
                 <v-text-field
                     v-model="search"
@@ -31,7 +29,6 @@
 
             <v-col
                 cols="4"
-                md="4"
             >
                 <v-btn
                     color="green"
@@ -46,9 +43,7 @@
             <v-spacer />
 
             <v-col
-                class="d-none d-sm-flex mx-5 mx-sm-0"
-                cols="6"
-                sm="1"
+                cols="1"
             >
                 <v-select
                     v-model="chartGridCol"
@@ -58,9 +53,7 @@
             </v-col>
 
             <v-col
-                class="mx-5 mx-sm-0"
-                cols="6"
-                sm="2"
+                cols="2"
             >
                 <v-select
                     v-model="query.ordering"
@@ -69,6 +62,58 @@
                     @change="sort"
                 />
             </v-col>
+        </v-row>
+
+        <!-- 表示・検索機能 スマホ -->
+        <v-row class="d-sm-none">
+            <v-col
+                cols="12"
+            >
+                <v-text-field
+                    class="mx-5"
+                    v-model="search"
+                    :counter="100"
+                    label="Search"
+                    required
+                    @keydown.enter="filterSearch"
+                />
+            </v-col>
+        </v-row>
+
+        <v-row class="d-sm-none">
+
+            <v-col
+                cols="6"
+            >
+                <v-select
+                    class="mx-5"
+                    v-model="query.ordering"
+                    :items="sortItems"
+                    label="Sort"
+                    @change="sort"
+                />
+            </v-col>
+
+            <v-col
+                cols="6"
+                class="d-flex align-center justify-center"
+            >
+                <v-btn
+                    color="green"
+                    elevation="2"
+                    dark
+                    @click="filterSearch"
+                >
+                    Search
+                </v-btn>
+            </v-col>
+        </v-row>
+
+        <v-row class="d-sm-none">
+
+            <v-spacer />
+
+            
         </v-row>
 
         <!-- Alert-->
