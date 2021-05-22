@@ -12,3 +12,6 @@ scraping/data
 
 # Virtualenv
 venv/
+
+# static file
+/static/
