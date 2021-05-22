@@ -195,7 +195,7 @@ export default {
                 {text: 'GPA', value: '-gpa'},
             ],
             gridItems: [
-                {text: '1列', value: 12},
+                {text: '１列', value: 12},
                 {text: '２列', value: 6},
             ],
         };
