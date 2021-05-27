@@ -16,37 +16,29 @@
         <!-- 表示・検索機能 PC -->
         <v-row class="d-none d-sm-flex">
             <v-col
-                cols="4"
+                cols="5"
             >
                 <v-text-field
                     v-model="search"
-                    :counter="100"
-                    label="Search"
-                    required
+                    clearable
+                    outlined
+                    label="講義を検索する"
+                    prepend-inner-icon="mdi-magnify"
+                    clear-icon="mdi-close-circle"
+                    hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
+                    autocomplete="off"
                     @keydown.enter="filterSearch"
                 />
-            </v-col>
-
-            <v-col
-                cols="4"
-            >
-                <v-btn
-                    color="green"
-                    elevation="2"
-                    dark
-                    @click="filterSearch"
-                >
-                    Search
-                </v-btn>
             </v-col>
 
             <v-spacer />
 
             <v-col
-                cols="1"
+                cols="2"
             >
                 <v-select
                     v-model="chartGridCol"
+                    prepend-icon="mdi-grid-large"
                     :items="gridItems"
                     label="grid"
                 />
@@ -57,6 +49,7 @@
             >
                 <v-select
                     v-model="query.ordering"
+                    prepend-icon="mdi-sort-descending"
                     :items="sortItems"
                     label="Sort"
                     @change="sort"
@@ -70,50 +63,38 @@
                 cols="12"
             >
                 <v-text-field
-                    class="mx-5"
                     v-model="search"
-                    :counter="100"
-                    label="Search"
-                    required
+                    class="mx-5"
+                    label="講義を検索する"
+                    clearable
+                    outlined
+                    prepend-inner-icon="mdi-magnify"
+                    clear-icon="mdi-close-circle"
+                    hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
                     @keydown.enter="filterSearch"
                 />
             </v-col>
         </v-row>
 
         <v-row class="d-sm-none">
+            <v-spacer />
 
             <v-col
                 cols="6"
+                class="mx-5"
             >
                 <v-select
-                    class="mx-5"
                     v-model="query.ordering"
-                    :items="sortItems"
+                    prepend-icon="mdi-sort-descending"
                     label="Sort"
+                    :items="sortItems"
                     @change="sort"
                 />
-            </v-col>
-
-            <v-col
-                cols="6"
-                class="d-flex align-center justify-center"
-            >
-                <v-btn
-                    color="green"
-                    elevation="2"
-                    dark
-                    @click="filterSearch"
-                >
-                    Search
-                </v-btn>
             </v-col>
         </v-row>
 
         <v-row class="d-sm-none">
-
             <v-spacer />
-
-            
         </v-row>
 
         <!-- Alert-->
@@ -169,7 +150,10 @@
                     </v-card-text>
 
                     <v-card-text>
-                        <BarChart :chart-data="getChartData(item)" />
+                        <BarChart
+                            :chart-data="getChartData(item)"
+                            :styles="chartStyle"
+                        />
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -219,6 +203,7 @@ export default {
             search: '',
             searchResultText: null,
             chartGridCol: 12,
+            chartHight: 300,
             query: {
                 'search': '',
                 'ordering': '',
@@ -254,15 +239,25 @@ export default {
         this.fetchGradeAPIData();
         next();
     },
+    computed: {
+        chartStyle() {
+            return {
+                height:`${this.chartHight}px`,
+                position: 'relative',
+            };
+        }
+    },
     created() {
         // 画面サイズがxsなら表示個数を減らす
         this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
+        this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
     },
     async mounted() {
         if (this.$route.fullpath != '/service') {
             this.query.page = this.$route.query.page || 1;
             this.query.ordering = this.$route.query.ordering || '';
             this.query.search = this.$route.query.search || '';
+            this.search = this.$route.query.search || '';
         }
         // 初期取得はbookmarkを始めにfetchする。
         await this.fetchBookmarkAPIdata();
@@ -270,8 +265,9 @@ export default {
     },
     methods: {
         filterSearch() {
-
-            this.query['search'] = this.search;
+            
+            // vuetifyのclearはnullが挿入される
+            this.query['search'] = this.search || '';
             this.query.page = 1;
 
             const fullURL = this.joinQuery(this.$route.path);

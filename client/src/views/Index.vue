@@ -9,7 +9,7 @@
                     :height="height"
                 >
                     <v-row
-                        class="ml-sm-5"
+                        class="mt-16"
                         align="center"
                         justify="center"
                     >
@@ -17,21 +17,33 @@
                             class="text-center"
                             cols="12"
                         >
-                            <p class="text-h6">
-                                北大成績分布検索サービス
+                            <p class="text-h6 text-sm-h4">
+                                成績分布検索システム
                             </p>
-                            <p class="text-h3 text-sm-h1 ml-sm-5 font-weight-thin mb-4">
+                            <p class="text-h3 text-sm-h1 font-weight-thin mb-4">
                                 iNAZO
                             </p>
-                            <v-btn
-                                class="px-sm-10 py-sm-10 mt-5"
-                                x-large
-                                color="success"
-                                dark
-                                to="/search"
-                            >
-                                今すぐはじめよう！
-                            </v-btn>
+                        </v-col>
+                    </v-row>
+                    <v-row
+                        class="mb-16"
+                        align="center"
+                        justify="center"
+                    >
+                        <v-col
+                            cols="12"
+                            sm="6"
+                        >
+                            <v-text-field
+                                v-model="search"
+                                clearable
+                                solo
+                                label="講義を検索する"
+                                prepend-inner-icon="mdi-magnify"
+                                clear-icon="mdi-close-circle"
+                                autocomplete="off"
+                                @keydown.enter="filterSearch"
+                            />
                         </v-col>
                     </v-row>
                 </v-parallax>
@@ -39,7 +51,7 @@
         </v-row>
 
         <v-row>
-            <v-col>
+            <v-col cols="12">
                 <p
                     class="text-h4 text-sm-h3 text-center"
                     style="margin: 5rem 0rem 5rem"
@@ -53,38 +65,44 @@
                         blue--text"
                     >iNAZO</span>とは？
                 </p>
-                <p class="text-h6 text-center">
-                    北大が公開している成績データをより扱いやすくしたサイトです。<br>
-                    成績分布のグラフは直感的に認識できるようになっています。
-                </p>
+                <v-row
+                    justify="center"
+                    class="mx-5 mx-sm-0"
+                >
+                    <v-col
+                        cols="12"
+                        sm="8"
+                    >
+                        <p class="text-h6">
+                            北大が公開している成績分布データをより扱いやすくしました。<br>
+                            受けたい講義の過去の成績分布が知りたい <br>
+                            気になる複数の講義の成績分布を比較したい <br>
+                            自分が受講した講義の成績分布を知りたい <br>
+                            そんなとき、あなたをお手伝いします。 <br>
+                            iNAZOを使って取りたい講義を、取りたい成績を <br>
+                            あなたのものにしよう。 <br>
+                        </p>
+                    </v-col>
+                </v-row>
             </v-col>
         </v-row>
 
-        <v-row>
-            <v-col>
-                <p
-                    class="text-h4 text-sm-h3 text-center"
-                    style="margin: 5rem 0rem 5rem"
-                >
-                    使う場面は？
-                </p>
-                <div class="text-h6 text-center">
-                    <p>iNAZOは以下の場面に便利です。</p>
-                    <p>・受けた講義の成績分布を知りたい。</p>
-                    <p>・これから受けたい講義の過去の成績を知りたい。</p>
-                    <p>・複数の気になる講義の成績を比較したい。</p>
-                </div>
-            </v-col>
-        </v-row>
 
         <!-- cards -->
-        <v-row style="margin: 3rem 1rem">
+        <v-row>
             <v-col cols="12">
                 <p
                     class="text-h4 text-sm-h3 text-center"
                     style="margin: 5rem 0rem 5rem"
                 >
-                    iNAZOの機能
+                    <span
+                        class="
+                        text-h3
+                        text-sm-h1
+                        font-weight-medium
+                        text-decoration-underline
+                        blue--text"
+                    >iNAZO</span>の特徴
                 </p>
             </v-col>
             <v-col
@@ -93,7 +111,8 @@
             >
                 <v-card
                     class="px-10 py-10"
-                    color="#26c6da"
+                    height="300"
+                    color="#1F7087"
                     dark
                 >
                     <p class="text-center text-h4 py-5">
@@ -111,14 +130,15 @@
             >
                 <v-card
                     class="px-10 py-10"
-                    color="#26c6da"
+                    height="300"
+                    color="#1F7087"
                     dark
                 >
                     <p class="text-center text-h4 py-5">
-                        シンプルな検索機能
+                        シンプルな検索
                     </p>
                     <v-card-subtitle class="text-h6 pb-5">
-                        講義名・教授・年代などの情報から検索できます。<br>
+                        簡潔で分かりやすい検索窓<br>
                     </v-card-subtitle>
                 </v-card>
             </v-col>
@@ -129,14 +149,15 @@
             >
                 <v-card
                     class="px-10 py-10"
-                    color="#26c6da"
+                    height="300"
+                    color="#1F7087"
                     dark
                 >
                     <p class="text-center text-h4 py-5">
                         ブックマーク機能
                     </p>
                     <v-card-subtitle class="text-h6 pb-5">
-                        気になる講義を登録して一覧表示ができます。<br>
+                        自分だけのイナゾーに<br>
                     </v-card-subtitle>
                 </v-card>
             </v-col>
@@ -148,8 +169,14 @@
                 class="px-10 py-10"
                 style="background-color: #ECEFF1"
             >
-                <p class="text-h4 text-center my-10">
-                    Q&A
+                <p class="text-h3 text-center my-10">
+                    <v-icon
+                        color="primary"
+                        left
+                        size="40"
+                    >
+                        mdi-help
+                    </v-icon>Q&A
                 </p>
 
                 <div class="my-16">
@@ -157,7 +184,13 @@
                         ・誰が作っているのですか？
                     </p>
                     <p class="text-h6">
-                        北大生応援メディアのJagaJagaが開発・運用しています。
+                        北大生応援メディアの
+                        <a
+                            href="http://hu-jagajaga.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >JagaJaga</a>
+                        が開発・運用しています。
                     </p>
                 </div>
 
@@ -172,7 +205,7 @@
 
                 <div class="my-16">
                     <p class="text-h6 font-weight-bold">
-                        バグを見つけたらどうすればいいですか？
+                        ・バグを見つけたらどうすればいいですか？
                     </p>
                     <p class="text-h6">
                         見つけたバグを以下のGoogle Formに書いて送信してください。
@@ -189,24 +222,46 @@
                 style="background-color: #ECEFF1"
             >
                 <p class="text-h3 text-center my-10">
-                    Link
+                    <v-icon
+                        color="primary"
+                        left
+                        size="40"
+                    >
+                        mdi-link-variant
+                    </v-icon>Link
                 </p>
                 <p>
-                    <a href="#">iNAZO公式Twitter</a>
+                    <a
+                        href="https://twitter.com/iNAZO_HU"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >iNAZO公式Twitter</a>
                 </p>
                 <p>更新や障害情報をお知らせします。お問い合わせはDMにお願いします。</p>
                 <p>
-                    <a href="http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx">
+                    <a
+                        href="http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         北海道大学 成績分布ＷＥＢ公開システム
                     </a>
                 </p>
                 <p>本サービスの情報源です。</p>
                 <p>
-                    <a href="http://hu-jagajaga.com/">JagaJaga - 北大生応援メディア -</a>
+                    <a
+                        href="http://hu-jagajaga.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >JagaJaga - 北大生応援メディア -</a>
                 </p>
                 <p>JagaJagaのホームページです。</p>
                 <p>
-                    <a href="https://twitter.com/jagajagahu">JagaJaga公式Twitter</a>
+                    <a
+                        href="https://twitter.com/jagajagahu"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >JagaJaga公式Twitter</a>
                 </p>
                 <p>JagaJagaの公式Twitterです。</p>
             </v-col>
@@ -217,10 +272,16 @@
 <script>
 
 export default {
+    data() {
+        return {
+            search: '',
+        };
+    },
+
     computed: {
         height () {
             switch (this.$vuetify.breakpoint.name) {
-            case 'xs': return 220;
+            case 'xs': return 300;
             case 'sm': return 400;
             case 'md': return 400;
             case 'lg': return 500;
@@ -229,6 +290,15 @@ export default {
             return 0;
         },
     },
+
+    methods: {
+        filterSearch() {
+            // vuetifyのclearはnullが挿入される
+            const query = `?search=${this.search || ''}`;
+            const fullURL = `/search${query}`;
+            this.$router.push(fullURL).catch(err => { console.log(err); });
+        },
+    }
 };
 
 </script>

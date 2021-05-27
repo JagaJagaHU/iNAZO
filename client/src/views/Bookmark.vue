@@ -7,12 +7,13 @@
             <v-col
                 class="d-none d-sm-flex mx-5 mx-sm-0"
                 cols="6"
-                sm="1"
+                sm="2"
             >
                 <v-select
                     v-model="chartGridCol"
-                    :items="gridItems"
+                    prepend-icon="mdi-grid-large"
                     label="grid"
+                    :items="gridItems"
                 />
             </v-col>
 
@@ -23,6 +24,7 @@
             >
                 <v-select
                     v-model="query.ordering"
+                    prepend-icon="mdi-sort-descending"
                     :items="sortItems"
                     label="Sort"
                     @change="sort"
@@ -40,6 +42,7 @@
                 </v-alert>
             </v-col>
         </v-row>
+
         <!-- main cards -->
         <v-row>
             <v-col
@@ -81,7 +84,10 @@
                     </v-card-text>
 
                     <v-card-text>
-                        <BarChart :chart-data="getChartData(item)" />
+                        <BarChart
+                            :chart-data="getChartData(item)"
+                            :styles="chartStyle"
+                        />
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -110,6 +116,7 @@ export default {
             items: [],
             bookMarkIDs: [],
             chartGridCol: 12,
+            chartHight: 300,
             sortItems: [
                 {text: '新着順', value: ''},
                 {text: 'A+', value: '-ap'},
@@ -126,13 +133,24 @@ export default {
                 {text: 'GPA', value: '-gpa'},
             ],
             gridItems: [
-                {text: '1列', value: 12},
+                {text: '１列', value: 12},
                 {text: '２列', value: 6},
             ],
             query: {
                 'ordering': '',
             },
         };
+    },
+    computed: {
+        chartStyle() {
+            return {
+                height:`${this.chartHight}px`,
+                position: 'relative',
+            };
+        }
+    },
+    created() {
+        this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
     },
     async mounted() {
         if (this.$route.fullpath != '/service') {

@@ -9,7 +9,7 @@
             @input="$emit('updatePage', $event)"
         />
         <!-- スマホ -->
-        <div class="d-sm-none d-flex justify-center">
+        <div class="d-sm-none d-flex justify-center align-center">
             <v-btn
                 class="mx-2 white--text"
                 color="light-blue"
@@ -18,12 +18,13 @@
             >
                 &lt; &nbsp; 前へ
             </v-btn>
-            <p
+            <div
                 v-if="size !== 0"
-                class="text-h6 px-5"
+                class="text-h8 px-5"
+                style="color:#999"
             >
-                {{ internalCurrentPage }} &nbsp; / &nbsp; {{ size }}
-            </p>
+                {{ internalCurrentPage }} &nbsp; of &nbsp; {{ size }}
+            </div>
             <v-btn
                 class="mx-2 white--text"
                 color="light-blue"
