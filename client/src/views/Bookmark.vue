@@ -119,6 +119,7 @@ export default {
             chartHight: 300,
             sortItems: [
                 {text: '新着順', value: ''},
+                {text: 'GPA', value: '-gpa'},
                 {text: 'A+', value: '-ap'},
                 {text: 'A', value: '-a'},
                 {text: 'A-', value: '-am'},
@@ -130,7 +131,6 @@ export default {
                 {text: 'D', value: '-d'},
                 {text: 'D-', value: '-dm'},
                 {text: 'F', value: '-f'},
-                {text: 'GPA', value: '-gpa'},
             ],
             gridItems: [
                 {text: '１列', value: 12},

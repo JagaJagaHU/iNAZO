@@ -17,7 +17,12 @@
                         to="/"
                         text
                     >
-                        iNAZO
+                        <v-img
+                            class="mr-2"
+                            max-height="20"
+                            max-width="20"
+                            src="../assets/logo.png"
+                        />iNAZO
                     </v-btn>
                 </v-col>
 

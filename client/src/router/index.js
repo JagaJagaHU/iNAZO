@@ -14,7 +14,7 @@ const routes = [
         path: '/search',
         name: 'Search',
         component: () => import('../views/Search.vue'),
-        meta: { title: '成績分布検索システム', desc: '績分布検索システムを利用可能' },
+        meta: { title: '成績分布検索サービス', desc: '成績分布検索サービスを利用可能' },
     },
     {
         path: '/bookmark',

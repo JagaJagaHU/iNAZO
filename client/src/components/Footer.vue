@@ -15,13 +15,16 @@
         >
             <v-card-text>
                 <v-btn
-                    v-for="icon in icons"
-                    :key="icon"
+                    v-for="item in items"
+                    :key="item.icon"
+                    :href="item.link"
                     class="mx-4"
                     icon
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
                     <v-icon size="24px">
-                        {{ icon }}
+                        {{ item.icon }}
                     </v-icon>
                 </v-btn>
             </v-card-text>
@@ -39,12 +42,20 @@
 export default {
     data() {
         return {
-            icons: [
-                'mdi-email',
-                'mdi-github',
-                'mdi-facebook',
-                'mdi-twitter',
-            ],
+            items: [
+                {
+                    icon: 'mdi-form-select',
+                    link: '',
+                },
+                {
+                    icon: 'mdi-github',
+                    link: '',
+                },
+                {
+                    icon: 'mdi-twitter',
+                    link: 'https://twitter.com/iNAZO_HU',
+                }
+            ]
         };
     }
 };

@@ -19,7 +19,7 @@ export default {
     },
     computed: {
         color() {
-            return this.active ? 'yellow' : 'gray';
+            return this.active ? '#FBC02D' : 'gray';
         }
     }
 };
