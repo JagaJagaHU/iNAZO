@@ -214,7 +214,8 @@
                         <a
                             href="#"
                             target="_blank"
-                            rel="noopener noreferrer">
+                            rel="noopener noreferrer"
+                        >
                             こちら
                         </a>
                         のGoogle Formで教えて下さると幸いです。
