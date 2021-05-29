@@ -9,3 +9,9 @@ db.sqlite3
 
 # data
 scraping/data
+
+# Virtualenv
+venv/
+
+# static file
+/static/

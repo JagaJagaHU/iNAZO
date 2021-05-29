@@ -7,6 +7,9 @@ node_modules
 .env.local
 .env.*.local
 
+# dev & prod env file
+.env.prod
+
 # Log files
 npm-debug.log*
 yarn-debug.log*

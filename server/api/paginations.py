@@ -3,8 +3,10 @@ import math
 from rest_framework import pagination
 from rest_framework.response import Response
 
+
 def get_num_page(count, page_size):
-    return math.ceil(count/page_size)
+    return math.ceil(count / page_size)
+
 
 class SizePagination(pagination.PageNumberPagination):
     def get_paginated_response(self, data):

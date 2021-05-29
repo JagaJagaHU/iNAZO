@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'HUsearch.urls'
+ROOT_URLCONF = 'iNAZO.urls'
 
 TEMPLATES = [
     {
@@ -65,7 +65,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'HUsearch.wsgi.application'
+WSGI_APPLICATION = 'iNAZO.wsgi.application'
 
 
 # Database
@@ -114,6 +114,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'api.paginations.SizePagination',
@@ -121,3 +122,4 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS')
+CORS_ALLOW_CREDENTIALS = True

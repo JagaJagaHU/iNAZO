@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "local-serve": "vue-cli-service serve --mode local",
+    "dev-serve": "vue-cli-service serve --mode development",
+    "prod-serve": "vue-cli-service serve --mode production",
+    "dev-build": "vue-cli-service build --mode development",
+    "prod-build": "vue-cli-service build --mode production",
+    "lint": "vue-cli-service lint --no-fix",
+    "lint:fix": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -14,6 +18,7 @@
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
     "vue-chartjs": "^3.4.2",
+    "vue-head": "^2.2.0",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0"
   },

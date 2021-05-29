@@ -1,15 +1,14 @@
-import json
-
 from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sessions.middleware import SessionMiddleware
 from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework import status
 
 from .models import GradeInfo
-from .views import GradeInfoList, GradeInfoDetail
-from .serializers import GradeInfoSerializer
+from .views import BookMarkDetail, BookMarkList, GradeInfoList, GradeInfoDetail
 from .paginations import get_num_page
+
 
 class GradeInfoAPITest(TestCase):
 
@@ -48,7 +47,7 @@ class GradeInfoAPITest(TestCase):
         )
         self.listView = GradeInfoList.as_view()
         self.detailView = GradeInfoDetail.as_view()
-    
+
     def test_get(self):
         request = self.factory.get('/api/gradeinfo/')
         response = self.listView(request)
@@ -59,43 +58,37 @@ class GradeInfoAPITest(TestCase):
         request = self.factory.post('/api/gradeinfo/', self.data)
         response = self.listView(request)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-    
+
     def test_post_by_user(self):
         request = self.factory.post('/api/gradeinfo/', self.data)
         force_authenticate(request, user=self.user)
         response = self.listView(request)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-    
+
     def test_post_by_admin(self):
         request = self.factory.post('/api/gradeinfo/', self.data)
         force_authenticate(request, user=self.admin)
         response = self.listView(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(len(GradeInfo.objects.all()), self.dataSize+1)
-    
-    
+        self.assertEqual(len(GradeInfo.objects.all()), self.dataSize + 1)
+
     def test_retrieve(self):
         request = self.factory.get('/api/gradeinfo/1/', self.data)
         response = self.detailView(request, pk=1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['id'], 1)
-    
-    
+
     def test_put_by_anonymousUser(self):
         request = self.factory.put('/api/gradeinfo/1/', self.data)
         response = self.detailView(request, pk=1)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-    
+
     def test_put_by_user(self):
         request = self.factory.put('/api/gradeinfo/1/', self.data)
         force_authenticate(request, user=self.user)
         response = self.detailView(request, pk=1)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-    
+
     def test_put_by_admin(self):
         request = self.factory.put('/api/gradeinfo/1/', self.data)
         force_authenticate(request, user=self.admin)
@@ -103,21 +96,18 @@ class GradeInfoAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         gi = GradeInfo.objects.get(pk=1)
         self.assertEqual(gi.subject, "プログラミング入門")
-    
 
     def test_delete_by_anonymousUser(self):
         request = self.factory.delete('/api/gradeinfo/1/')
         response = self.detailView(request, pk=1)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-    
+
     def test_delete_by_user(self):
         request = self.factory.delete('/api/gradeinfo/1/')
         force_authenticate(request, user=self.user)
         response = self.detailView(request, pk=1)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-    
-    
+
     def test_delete_by_admin(self):
         request = self.factory.delete('/api/gradeinfo/1/')
         force_authenticate(request, user=self.admin)
@@ -134,3 +124,35 @@ class GradeInfoAPITest(TestCase):
         ans = [10, 11, 10]
         res = [get_num_page(inp, page_size) for inp in inputs]
         self.assertEqual(res, ans)
+
+
+class BookMarkTest(TestCase):
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.listView = BookMarkList.as_view()
+        self.detailView = BookMarkDetail.as_view()
+
+    def test_post_invalid_string_bookMarkID(self):
+        data = {
+            'bookMarkID': "abc",
+        }
+        request = self.factory.post('/api/bookmark/', data)
+        response = self.listView(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_post_invalid_none_bookMarkID(self):
+        data = {}
+        request = self.factory.post('/api/bookmark/', data)
+        response = self.listView(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_post_valid_bookMarkID(self):
+        data = {
+            'bookMarkID': "123",
+        }
+        request = self.factory.post('/api/bookmark/', data)
+        SessionMiddleware().process_request(request)
+        request.session.save()
+        response = self.listView(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
