@@ -15,3 +15,6 @@ venv/
 
 # static file
 /static/
+
+# socket file
+inazo.sock

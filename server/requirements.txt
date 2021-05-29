@@ -15,3 +15,4 @@ six==1.16.0
 sqlparse==0.4.1
 tqdm==4.60.0
 urllib3==1.26.4
+wheel==0.36.2

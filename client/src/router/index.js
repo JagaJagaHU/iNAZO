@@ -8,13 +8,14 @@ const routes = [
         path: '/',
         name: 'Index',
         component: () => import('../views/Index.vue'),
-        meta: { title: 'ホーム', desc: 'ホームページ' },
+        meta: { title: 'ホームページ', desc: `北大の公開されている成績分布データをグラフ化しました。
+        ソート検索やブックマークでカスタマイズしたあなただけのiNAZOと行きたい学部にいこう。`},
     },
     {
         path: '/search',
         name: 'Search',
         component: () => import('../views/Search.vue'),
-        meta: { title: '成績分布検索サービス', desc: '成績分布検索サービスを利用可能' },
+        meta: { title: '成績検索', desc: '成績分布検索サービスを利用可能' },
     },
     {
         path: '/bookmark',

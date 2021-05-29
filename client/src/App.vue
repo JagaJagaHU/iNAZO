@@ -38,7 +38,7 @@ export default {
             return {
                 inner: this.titleInner,
                 separator: '|',
-                complement: 'iNAZO'
+                complement: '成績分布検索サービス iNAZO'
             };
         },
         meta() {

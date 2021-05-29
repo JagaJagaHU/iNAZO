@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <!-- top -->
+        <!-- トップ -->
         <v-row>
             <v-col>
                 <v-parallax
@@ -212,7 +212,7 @@
                     <p class="text-h6">
                         A. 見つけたバグを
                         <a
-                            href="#"
+                            href="https://forms.gle/tLRiKrShckWsiuXs9"
                             target="_blank"
                             rel="noopener noreferrer"
                         >

@@ -45,11 +45,11 @@ export default {
             items: [
                 {
                     icon: 'mdi-form-select',
-                    link: '',
+                    link: 'https://forms.gle/tLRiKrShckWsiuXs9',
                 },
                 {
                     icon: 'mdi-github',
-                    link: '',
+                    link: 'https://github.com/karintou8710/iNAZO',
                 },
                 {
                     icon: 'mdi-twitter',

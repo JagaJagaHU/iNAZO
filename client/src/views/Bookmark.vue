@@ -45,52 +45,68 @@
 
         <!-- main cards -->
         <v-row>
-            <v-col
-                v-for="item, index in items"
-                :key="item.id"
-                :cols="chartGridCol"
-            >
-                <v-card
-                    class="my-5"
-                    flat
-                    outlined
+            <template v-if="!isVisible">
+                <v-col
+                    v-for="i in 10"
+                    :key="i"
+                    :cols="chartGridCol"
                 >
-                    <v-card-title v-if="item.subject == &quot; &quot;">
-                        {{ item.lecture }}
-                    </v-card-title>
-                    <v-card-title v-else>
-                        {{ item.subject }} &emsp; {{ item.lecture }}
-                    </v-card-title>
-
-                    <v-card-text>
-                        <Star
-                            :active="item.isBookMark"
-                            @click="postBookMark(index)"
+                    <v-sheet class="pa-3">
+                        <v-skeleton-loader
+                            class="mx-auto"
+                            type="card"
                         />
-                        <p class="card-text">
-                            {{ item.year }}年度 {{ item.semester }}
-                        </p>
-                        <p class="card-text">
-                            開講学部：{{ item.faculty }}
-                        </p>
-                        <p class="card-text">
-                            クラス：{{ item.group }}
-                        </p>
-                        <p class="card-text">
-                            履修者数 : {{ item.numOfStudents }}人
-                        </p>
-                        <p>担当教員名：{{ item.teacher }}</p>
-                        <p>GPA : {{ item.gpa }}</p>
-                    </v-card-text>
+                    </v-sheet>
+                </v-col>
+            </template>
 
-                    <v-card-text>
-                        <BarChart
-                            :chart-data="getChartData(item)"
-                            :styles="chartStyle"
-                        />
-                    </v-card-text>
-                </v-card>
-            </v-col>
+            <template v-else>
+                <v-col
+                    v-for="(item, index) in items"
+                    :key="item.id"
+                    :cols="chartGridCol"
+                >
+                    <v-card
+                        class="my-5"
+                        flat
+                        outlined
+                    >
+                        <v-card-title v-if="item.subject == ' '">
+                            {{ item.lecture }}
+                        </v-card-title>
+                        <v-card-title v-else>
+                            {{ item.subject }} &emsp; {{ item.lecture }}
+                        </v-card-title>
+
+                        <v-card-text>
+                            <Star
+                                :active="item.isBookMark"
+                                @click="postBookMark(index)"
+                            />
+                            <p class="card-text">
+                                {{ item.year }}年度 {{ item.semester }}
+                            </p>
+                            <p class="card-text">
+                                開講学部：{{ item.faculty }}
+                            </p>
+                            <p class="card-text">
+                                クラス：{{ item.group }}
+                            </p>
+                            <p class="card-text">
+                                履修者数 : {{ item.numOfStudents }}人
+                            </p>
+                            <p>担当教員名：{{ item.teacher }}</p>
+                            <p>GPA : {{ item.gpa }}</p>
+                        </v-card-text>
+                        <v-card-text>
+                            <BarChart
+                                :chart-data="getChartData(item)"
+                                :styles="chartStyle"
+                            />
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </template>
         </v-row>
     </v-container>
 </template>
@@ -113,10 +129,11 @@ export default {
     },
     data() {
         return {
-            items: [],
+            items: [{},{},{},{},{},{},],
             bookMarkIDs: [],
             chartGridCol: 12,
             chartHight: 300,
+            isVisible: false,
             sortItems: [
                 {text: '新着順', value: ''},
                 {text: 'GPA', value: '-gpa'},
@@ -209,6 +226,7 @@ export default {
         },
 
         async fetchBookmarkAPIData() {
+            this.isVisible = false;
 
             const res = await this.axios.get(this.joinQuery(bookmarkURL), {
                 withCredentials: true
@@ -223,6 +241,7 @@ export default {
                 item.isBookMark = this.bookMarkIDs.includes(item.id);
             });
             
+            this.isVisible = true;
         },
 
         getChartData(item) {
