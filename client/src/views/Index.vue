@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <!-- top -->
+        <!-- トップ -->
         <v-row>
             <v-col>
                 <v-parallax
