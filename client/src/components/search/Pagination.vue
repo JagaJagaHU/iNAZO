@@ -1,7 +1,8 @@
 <template>
     <div class="text-center my-10">
-
-        <p v-if="count !== null">約{{count}}件</p>
+        <p v-if="count !== null">
+            約{{ count }}件
+        </p>
         <!-- PC -->
         <v-pagination
             v-model="internalCurrentPage"
@@ -56,6 +57,7 @@ export default {
         },
         count: {
             type: Number,
+            default: null,
             required: false,
         },
     },
