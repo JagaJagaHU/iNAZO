@@ -7,6 +7,7 @@
                     :size="size"
                     :total-visible="totalVisible"
                     :current-page="currentPage"
+                    :count="count"
                     @updatePage="setPageAndGetData"
                     @input="page => currentPage = page"
                 />
@@ -179,6 +180,7 @@
                     :size="size"
                     :total-visible="totalVisible"
                     :current-page="currentPage"
+                    :count="count"
                     @updatePage="setPageAndGetData"
                     @input="page => currentPage = page"
                 />
@@ -218,6 +220,7 @@ export default {
             chartGridCol: 12,
             chartHight: 300,
             isVisible: false,
+            count: null,
             query: {
                 'search': '',
                 'ordering': '',
@@ -353,6 +356,7 @@ export default {
             this.items.splice(0, this.items.length);
             this.items.push(...res.data.results);
             this.size = res.data.size;
+            this.count = res.data.count;
             this.currentPage = Number(this.query.page);
             this.searchResultText = this.query.search;
 

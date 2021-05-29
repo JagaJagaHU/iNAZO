@@ -1,5 +1,7 @@
 <template>
     <div class="text-center my-10">
+
+        <p v-if="count !== null">約{{count}}件</p>
         <!-- PC -->
         <v-pagination
             v-model="internalCurrentPage"
@@ -51,6 +53,10 @@ export default {
         currentPage: {
             type: Number,
             required: true,
+        },
+        count: {
+            type: Number,
+            required: false,
         },
     },
     computed: {
