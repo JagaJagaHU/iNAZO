@@ -116,46 +116,59 @@
                 :key="item.id"
                 :cols="chartGridCol"
             >
-                <v-card
-                    class="my-5"
-                    flat
-                    outlined
-                >
-                    <v-card-title v-if="item.subject == &quot; &quot;">
-                        {{ item.lecture }}
-                    </v-card-title>
-                    <v-card-title v-else>
-                        {{ item.subject }} &emsp; {{ item.lecture }}
-                    </v-card-title>
-
-                    <v-card-text>
-                        <Star
-                            :active="item.isBookMark"
-                            @click="postBookMark(index)"
+                <template v-if="!isVisible">
+                    <v-sheet
+                        class="pa-3"
+                    >
+                        <v-skeleton-loader
+                            class="mx-auto"
+                            type="card"
                         />
-                        <p class="card-text">
-                            {{ item.year }}年度 {{ item.semester }}
-                        </p>
-                        <p class="card-text">
-                            開講学部：{{ item.faculty }}
-                        </p>
-                        <p class="card-text">
-                            クラス：{{ item.group }}
-                        </p>
-                        <p class="card-text">
-                            履修者数 : {{ item.numOfStudents }}人
-                        </p>
-                        <p>担当教員名：{{ item.teacher }}</p>
-                        <p>GPA : {{ item.gpa }}</p>
-                    </v-card-text>
+                    </v-sheet>
+                </template>
 
-                    <v-card-text>
-                        <BarChart
-                            :chart-data="getChartData(item)"
-                            :styles="chartStyle"
-                        />
-                    </v-card-text>
-                </v-card>
+                <template v-else>
+                    <v-card
+                        class="my-5"
+                        flat
+                        outlined
+                    >
+                        <v-card-title v-if="item.subject == &quot; &quot;">
+                            {{ item.lecture }}
+                        </v-card-title>
+                        <v-card-title v-else>
+                            {{ item.subject }} &emsp; {{ item.lecture }}
+                        </v-card-title>
+
+                        <v-card-text>
+                            <Star
+                                :active="item.isBookMark"
+                                @click="postBookMark(index)"
+                            />
+                            <p class="card-text">
+                                {{ item.year }}年度 {{ item.semester }}
+                            </p>
+                            <p class="card-text">
+                                開講学部：{{ item.faculty }}
+                            </p>
+                            <p class="card-text">
+                                クラス：{{ item.group }}
+                            </p>
+                            <p class="card-text">
+                                履修者数 : {{ item.numOfStudents }}人
+                            </p>
+                            <p>担当教員名：{{ item.teacher }}</p>
+                            <p>GPA : {{ item.gpa }}</p>
+                        </v-card-text>
+
+                        <v-card-text>
+                            <BarChart
+                                :chart-data="getChartData(item)"
+                                :styles="chartStyle"
+                            />
+                        </v-card-text>
+                    </v-card>
+                </template>
             </v-col>
         </v-row>
 
@@ -195,7 +208,7 @@ export default {
     },
     data() {
         return {
-            items: [],
+            items: [{},{},{},{},{},{}], // 初期は空のオブジェクトを持つようにする
             bookMarkIDs: [],
             currentPage: 1,
             totalVisible: 0,
@@ -204,6 +217,7 @@ export default {
             searchResultText: null,
             chartGridCol: 12,
             chartHight: 300,
+            isVisible: false,
             query: {
                 'search': '',
                 'ordering': '',
@@ -329,6 +343,8 @@ export default {
         },
 
         async fetchGradeAPIData() {
+            this.isVisible = false;
+
             const res = await this.axios.get(this.joinQuery(gradeURL), {
                 withCredentials: true
             });
@@ -344,6 +360,8 @@ export default {
             this.items.map(item => {
                 item.isBookMark = this.bookMarkIDs.includes(item.id);
             });
+
+            this.isVisible = true;
         },
 
         // ページに訪れた時のみに使用
