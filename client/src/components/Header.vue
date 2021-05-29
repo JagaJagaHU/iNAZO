@@ -1,7 +1,7 @@
 <template>
     <v-app-bar
         app
-        color="primary"
+        color="#1E88E5"
         dark
         absolute
     >
@@ -13,14 +13,12 @@
                     sm="2"
                 >
                     <v-btn
-                        class="px-xs-0 px-xs-1"
-                        style="opacity:1"
+                        class="px-0 px-sm-1"
                         to="/"
                         text
                     >
                         <v-img
-                            class="mr-2"
-                            max-width="200"
+                            max-width="160"
                             src="../assets/iNAZO_logo.png"
                         />
                     </v-btn>
