@@ -14,15 +14,15 @@
                 >
                     <v-btn
                         class="px-xs-0 px-xs-1"
+                        style="opacity:1"
                         to="/"
                         text
                     >
                         <v-img
                             class="mr-2"
-                            max-height="20"
-                            max-width="20"
-                            src="../assets/logo.png"
-                        />iNAZO
+                            max-width="200"
+                            src="../assets/iNAZO_logo.png"
+                        />
                     </v-btn>
                 </v-col>
 
