@@ -5,7 +5,7 @@
             <v-col>
                 <v-parallax
                     class="mb-5 mb-sm-10"
-                    src="@/assets/background-title.jpg"
+                    src="@/assets/background-title.png"
                     :height="height"
                 >
                     <v-row
@@ -21,7 +21,7 @@
                             <v-img
                                 max-height="200"
                                 max-width="500"
-                                src="../assets/iNAZO_logo.png"
+                                src="../assets/logo_top.png"
                             />
                         </v-col>
                     </v-row>
@@ -248,7 +248,7 @@
                     >iNAZO公式Twitter</a>
                 </p>
                 <p>更新情報や障害情報をお知らせします。フォロー推薦です。お問い合わせはDMにお願いします。</p>
-                <p>
+                <p class="text-h6">
                     <a
                         href="http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
                         target="_blank"
@@ -258,7 +258,7 @@
                     </a>
                 </p>
                 <p>データ参照先である北海道大学公式のサイトです。本サービスとの併用をお勧めします。</p>
-                <p>
+                <p class="text-h6">
                     <a
                         href="http://hu-jagajaga.com/"
                         target="_blank"
@@ -266,7 +266,7 @@
                     >JagaJaga - 北大生応援メディア -</a>
                 </p>
                 <p>北大生目線の記事を掲載しています。ぜひご覧ください。</p>
-                <p>
+                <p class="text-h6">
                     <a
                         href="https://twitter.com/jagajagahu"
                         target="_blank"

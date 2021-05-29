@@ -1,6 +1,6 @@
 <template>
     <v-footer
-        color="primary"
+        color="#1E88E5"
         padless
         dark
         app
@@ -10,7 +10,7 @@
             flat
             tile
             width="100%"
-            color="primary"
+            color="#1E88E5"
             class="lighten-1 text-center"
         >
             <v-card-text>
