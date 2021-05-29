@@ -9,16 +9,14 @@
                     :current-page="currentPage"
                     :count="count"
                     @updatePage="setPageAndGetData"
-                    @input="page => currentPage = page"
+                    @input="(page) => (currentPage = page)"
                 />
             </v-col>
         </v-row>
 
         <!-- 表示・検索機能 PC -->
         <v-row class="d-none d-sm-flex">
-            <v-col
-                cols="5"
-            >
+            <v-col cols="5">
                 <v-text-field
                     v-model="search"
                     clearable
@@ -34,9 +32,7 @@
 
             <v-spacer />
 
-            <v-col
-                cols="2"
-            >
+            <v-col cols="2">
                 <v-select
                     v-model="chartGridCol"
                     prepend-icon="mdi-grid-large"
@@ -45,9 +41,7 @@
                 />
             </v-col>
 
-            <v-col
-                cols="2"
-            >
+            <v-col cols="2">
                 <v-select
                     v-model="query.ordering"
                     prepend-icon="mdi-sort-descending"
@@ -60,9 +54,7 @@
 
         <!-- 表示・検索機能 スマホ -->
         <v-row class="d-sm-none">
-            <v-col
-                cols="12"
-            >
+            <v-col cols="12">
                 <v-text-field
                     v-model="search"
                     class="mx-5"
@@ -112,29 +104,33 @@
 
         <!-- main cards -->
         <v-row>
-            <v-col
-                v-for="item, index in items"
-                :key="item.id"
-                :cols="chartGridCol"
-            >
-                <template v-if="!isVisible">
-                    <v-sheet
-                        class="pa-3"
-                    >
+            <template v-if="!isVisible">
+                <v-col
+                    v-for="i in 10"
+                    :key="i"
+                    :cols="chartGridCol"
+                >
+                    <v-sheet class="pa-3">
                         <v-skeleton-loader
                             class="mx-auto"
                             type="card"
                         />
                     </v-sheet>
-                </template>
+                </v-col>
+            </template>
 
-                <template v-else>
+            <template v-else>
+                <v-col
+                    v-for="(item, index) in items"
+                    :key="item.id"
+                    :cols="chartGridCol"
+                >
                     <v-card
                         class="my-5"
                         flat
                         outlined
                     >
-                        <v-card-title v-if="item.subject == &quot; &quot;">
+                        <v-card-title v-if="item.subject == ' '">
                             {{ item.lecture }}
                         </v-card-title>
                         <v-card-title v-else>
@@ -161,7 +157,6 @@
                             <p>担当教員名：{{ item.teacher }}</p>
                             <p>GPA : {{ item.gpa }}</p>
                         </v-card-text>
-
                         <v-card-text>
                             <BarChart
                                 :chart-data="getChartData(item)"
@@ -169,8 +164,8 @@
                             />
                         </v-card-text>
                     </v-card>
-                </template>
-            </v-col>
+                </v-col>
+            </template>
         </v-row>
 
         <!-- pagination -->
@@ -182,7 +177,7 @@
                     :current-page="currentPage"
                     :count="count"
                     @updatePage="setPageAndGetData"
-                    @input="page => currentPage = page"
+                    @input="(page) => (currentPage = page)"
                 />
             </v-col>
         </v-row>
@@ -210,7 +205,7 @@ export default {
     },
     data() {
         return {
-            items: [{},{},{},{},{},{}], // 初期は空のオブジェクトを持つようにする
+            items: [{}, {}, {}, {}, {}, {}], // 初期は空のオブジェクトを持つようにする
             bookMarkIDs: [],
             currentPage: 1,
             totalVisible: 0,
@@ -222,33 +217,33 @@ export default {
             isVisible: false,
             count: null,
             query: {
-                'search': '',
-                'ordering': '',
-                'page': 1,
+                search: '',
+                ordering: '',
+                page: 1,
             },
             sortItems: [
-                {text: '新着順', value: ''},
-                {text: 'GPA', value: '-gpa'},
-                {text: 'A+', value: '-ap'},
-                {text: 'A', value: '-a'},
-                {text: 'A-', value: '-am'},
-                {text: 'B+', value: '-bp'},
-                {text: 'B', value: '-b'},
-                {text: 'B-', value: '-bm'},
-                {text: 'C+', value: '-cp'},
-                {text: 'C', value: '-c'},
-                {text: 'D', value: '-d'},
-                {text: 'D-', value: '-dm'},
-                {text: 'F', value: '-f'},
+                { text: '新着順', value: '' },
+                { text: 'GPA', value: '-gpa' },
+                { text: 'A+', value: '-ap' },
+                { text: 'A', value: '-a' },
+                { text: 'A-', value: '-am' },
+                { text: 'B+', value: '-bp' },
+                { text: 'B', value: '-b' },
+                { text: 'B-', value: '-bm' },
+                { text: 'C+', value: '-cp' },
+                { text: 'C', value: '-c' },
+                { text: 'D', value: '-d' },
+                { text: 'D-', value: '-dm' },
+                { text: 'F', value: '-f' },
             ],
             gridItems: [
-                {text: '１列', value: 12},
-                {text: '２列', value: 6},
+                { text: '１列', value: 12 },
+                { text: '２列', value: 6 },
             ],
         };
     },
     beforeRouteUpdate(to, from, next) {
-        // クエリなしに対応
+    // クエリなしに対応
         this.query.page = to.query.page || 1;
         this.query.ordering = to.query.ordering || '';
         this.query.search = to.query.search || '';
@@ -259,13 +254,13 @@ export default {
     computed: {
         chartStyle() {
             return {
-                height:`${this.chartHight}px`,
+                height: `${this.chartHight}px`,
                 position: 'relative',
             };
-        }
+        },
     },
     created() {
-        // 画面サイズがxsなら表示個数を減らす
+    // 画面サイズがxsなら表示個数を減らす
         this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
         this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
     },
@@ -282,20 +277,23 @@ export default {
     },
     methods: {
         filterSearch() {
-            
             // vuetifyのclearはnullが挿入される
             this.query['search'] = this.search || '';
             this.query.page = 1;
 
             const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => { console.log(err); });
+            this.$router.push(fullURL).catch((err) => {
+                console.log(err);
+            });
         },
 
         sort() {
             this.query.page = 1;
 
             const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => { console.log(err); });
+            this.$router.push(fullURL).catch((err) => {
+                console.log(err);
+            });
         },
 
         setPageAndGetData(page) {
@@ -305,12 +303,14 @@ export default {
             window.scrollTo(0, 0);
 
             const fullURL = this.joinQuery(this.$route.path);
-            this.$router.push(fullURL).catch(err => {}); // eslint-disable-line no-unused-vars
+            this.$router.push(fullURL).catch((err) => {}); // eslint-disable-line no-unused-vars
         },
 
         joinQuery(url) {
             let queryURL = '';
-            Object.keys(this.query).forEach(key => queryURL += '&' + key + '=' + this.query[key]);
+            Object.keys(this.query).forEach(
+                (key) => (queryURL += '&' + key + '=' + this.query[key])
+            );
             if (url.indexOf('?') == -1) {
                 queryURL = queryURL.replace('&', '?'); // 先頭の&を?に置換
             }
@@ -324,18 +324,22 @@ export default {
             if (item.isBookMark) {
                 // ブックマーク解除
                 const res = await this.axios.delete(`${bookmarkURL}${bookMarkID}/`, {
-                    withCredentials: true
+                    withCredentials: true,
                 });
                 if (res.status == HTTP_204_NO_CONTENT) {
-                    this.bookMarkIDs = this.bookMarkIDs.filter(id => id != bookMarkID);
+                    this.bookMarkIDs = this.bookMarkIDs.filter((id) => id != bookMarkID);
                     item.isBookMark = !item.isBookMark;
                     this.$set(this.items, index, item);
                 }
             } else {
                 // 登録
-                const res = await this.axios.post(bookmarkURL, {'bookMarkID': bookMarkID}, {
-                    withCredentials: true
-                });
+                const res = await this.axios.post(
+                    bookmarkURL,
+                    { bookMarkID: bookMarkID },
+                    {
+                        withCredentials: true,
+                    }
+                );
 
                 if (res.status == HTTP_201_CREATED) {
                     this.bookMarkIDs = res.data.bookMarkIDs;
@@ -349,7 +353,7 @@ export default {
             this.isVisible = false;
 
             const res = await this.axios.get(this.joinQuery(gradeURL), {
-                withCredentials: true
+                withCredentials: true,
             });
 
             // chartを更新
@@ -361,7 +365,7 @@ export default {
             this.searchResultText = this.query.search;
 
             // 取得したデータがブックマークされているか確認
-            this.items.map(item => {
+            this.items.map((item) => {
                 item.isBookMark = this.bookMarkIDs.includes(item.id);
             });
 
@@ -371,9 +375,9 @@ export default {
         // ページに訪れた時のみに使用
         async fetchBookmarkAPIdata() {
             const res = await this.axios.get(bookmarkURL, {
-                withCredentials: true
+                withCredentials: true,
             });
-            this.bookMarkIDs = res.data.map(item => item.id);
+            this.bookMarkIDs = res.data.map((item) => item.id);
         },
 
         getChartData(item) {
@@ -395,13 +399,23 @@ export default {
                             'rgba(244, 67, 54, 1)',
                             'rgba(244, 67, 54, 1)',
                         ],
-                        data: [item.ap, item.a, item.am, item.bp, item.b,
-                            item.bm, item.cp, item.c, item.d, item.dm, item.f],
-                    }
-                ]
+                        data: [
+                            item.ap,
+                            item.a,
+                            item.am,
+                            item.bp,
+                            item.b,
+                            item.bm,
+                            item.cp,
+                            item.c,
+                            item.d,
+                            item.dm,
+                            item.f,
+                        ],
+                    },
+                ],
             };
         },
     },
 };
-
 </script>

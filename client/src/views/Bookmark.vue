@@ -45,29 +45,33 @@
 
         <!-- main cards -->
         <v-row>
-            <v-col
-                v-for="item, index in items"
-                :key="item.id"
-                :cols="chartGridCol"
-            >
-                <template v-if="!isVisible">
-                    <v-sheet
-                        class="pa-3"
-                    >
+            <template v-if="!isVisible">
+                <v-col
+                    v-for="i in 10"
+                    :key="i"
+                    :cols="chartGridCol"
+                >
+                    <v-sheet class="pa-3">
                         <v-skeleton-loader
                             class="mx-auto"
                             type="card"
                         />
                     </v-sheet>
-                </template>
+                </v-col>
+            </template>
 
-                <template v-else>
+            <template v-else>
+                <v-col
+                    v-for="(item, index) in items"
+                    :key="item.id"
+                    :cols="chartGridCol"
+                >
                     <v-card
                         class="my-5"
                         flat
                         outlined
                     >
-                        <v-card-title v-if="item.subject == &quot; &quot;">
+                        <v-card-title v-if="item.subject == ' '">
                             {{ item.lecture }}
                         </v-card-title>
                         <v-card-title v-else>
@@ -94,7 +98,6 @@
                             <p>担当教員名：{{ item.teacher }}</p>
                             <p>GPA : {{ item.gpa }}</p>
                         </v-card-text>
-
                         <v-card-text>
                             <BarChart
                                 :chart-data="getChartData(item)"
@@ -102,8 +105,8 @@
                             />
                         </v-card-text>
                     </v-card>
-                </template>
-            </v-col>
+                </v-col>
+            </template>
         </v-row>
     </v-container>
 </template>
