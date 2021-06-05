@@ -22,4 +22,4 @@ http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx
 
 # License
 
-準備中...
+このプロジェクトは MIT license です。
