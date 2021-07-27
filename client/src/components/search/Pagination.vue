@@ -1,7 +1,7 @@
 <template>
     <div class="text-center my-10">
         <p v-if="count !== null">
-            約{{ count }}件
+            {{ count }}件
         </p>
         <!-- PC -->
         <v-pagination
