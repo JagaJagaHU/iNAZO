@@ -16,21 +16,20 @@ LOGGING = {
     },
     'loggers': {
         # 自作したログ出力
-        '': {
+        'api': {
             'handlers': ['console'],
             'level': 'DEBUG',
+            'propagate': False,
+        },
+        'scraping': {
+            'handlers': ['console'],
+            'level': 'INFO',
             'propagate': False,
         },
         # Djangoのエラー・警告・開発WEBサーバのアクセスログ
         'django': {
             'handlers': ['console'],
             'level': 'INFO',
-            'propagate': False,
-        },
-        # 実行SQL
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
             'propagate': False,
         },
     }
