@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='gradeinfo',
             name='created_at',
-            field=models.DateTimeField(default=django.utils.timezone.now, editable=False),
+            field=models.DateTimeField(
+                default=django.utils.timezone.now, editable=False),
         ),
     ]
