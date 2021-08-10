@@ -10,6 +10,9 @@ class Command(BaseCommand):
 
     help = 'delete all gradeinfo table data and load all json data.'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--test', action='store_true')
+
     def handle(self, *args, **options):
 
         text = 'このコマンドはgradeinfoテーブルのデータを全て消去します。よろしいですか？[y/n] : '
@@ -18,9 +21,11 @@ class Command(BaseCommand):
 
         GradeInfo.objects.all().delete()
 
-        for curDir, dirs, files in os.walk("scraping/data/"):
+        dataDir = "scraping/testdata/" if options.get("test") else "scraping/data/"
+
+        for curDir, dirs, files in os.walk(dataDir):
             for filename in files:
                 filePath = os.path.join(curDir, filename)
                 self.stdout.write(filePath)
-                args = ['loaddata', filePath]
-                call_command(*args, stdout=self.stdout)
+                command_args = ['loaddata', filePath]
+                call_command(*command_args, stdout=self.stdout)

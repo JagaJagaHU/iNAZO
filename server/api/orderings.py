@@ -26,57 +26,79 @@ class OrderingFilter(BaseOrderingFilter):
             # ap
             if ordering[i] in ['ap', '-ap']:
                 queryset = queryset.annotate(
-                    ap_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    ap_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # a
             elif ordering[i] in ['a', '-a']:
                 queryset = queryset.annotate(
-                    a_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    a_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # am
             elif ordering[i] in ['am', '-am']:
                 queryset = queryset.annotate(
-                    am_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    am_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # bp
             elif ordering[i] in ['bp', '-bp']:
                 queryset = queryset.annotate(
-                    bp_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    bp_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # b
             elif ordering[i] in ['b', '-b']:
                 queryset = queryset.annotate(
-                    b_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    b_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # bm
             elif ordering[i] in ['bm', '-bm']:
                 queryset = queryset.annotate(
-                    bm_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    bm_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # cp
             elif ordering[i] in ['cp', '-cp']:
                 queryset = queryset.annotate(
-                    cp_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    cp_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # c
             elif ordering[i] in ['c', '-c']:
                 queryset = queryset.annotate(
-                    c_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    c_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # d
             elif ordering[i] in ['d', '-d']:
                 queryset = queryset.annotate(
-                    d_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    d_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # dm
             elif ordering[i] in ['dm', '-dm']:
                 queryset = queryset.annotate(
-                    dm_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    dm_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
             # f
             elif ordering[i] in ['f', '-f']:
                 queryset = queryset.annotate(
-                    f_percent=PERCENT * F(self.remove_prefix_underbar(ordering[i])) / F('numOfStudents')
+                    f_percent=PERCENT *
+                    F(self.remove_prefix_underbar(
+                        ordering[i])) / F('numOfStudents')
                 )
 
             new_ordering.append(ordering[i] + '_percent')
