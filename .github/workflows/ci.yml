@@ -15,9 +15,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: cd client
-      - run: npm ci
-      - run: npm run lint
+      - name: Setup and run test
+        working-directory: ./client
+        run: |
+        cd client
+        npm ci
+        npm run lint
+        npm run prod-build
   
   # server:
   #   runs-on: ubuntu-latest
