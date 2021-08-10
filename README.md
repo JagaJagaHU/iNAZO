@@ -24,3 +24,4 @@ http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx
 
 このプロジェクトは [MIT license](https://en.wikipedia.org/wiki/MIT_License) です。
 
+
