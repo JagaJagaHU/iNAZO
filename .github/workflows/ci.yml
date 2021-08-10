@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master, develop]
+  
+  workflow_dispatch:
+
+jobs:
+  client:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: cd client
+      - run: npm ci
+      - run: npm run lint
+  
+  # server:
+  #   runs-on: ubuntu-latest
+    
+  #   steps:
+  #     - uses: actions/checkout@v2
