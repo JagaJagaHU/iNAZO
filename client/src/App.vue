@@ -6,7 +6,7 @@
             class="my-10"
             app
         >
-            <router-view />
+               <router-view />
         </v-main>
 
         <Footer />
