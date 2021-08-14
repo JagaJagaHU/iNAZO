@@ -9,6 +9,8 @@ lint = "flake8 ."
 format = "autopep8 -i --exclude venv -r ."
 test  = "python3 manage.py test"
 loaddata = "python3 manage.py loadalldata"
+makemigrations = "python3 manage.py makemigrations"
+migrate = "python3 manage.py migrate"
 
 [packages]
 asgiref = "==3.3.4"
