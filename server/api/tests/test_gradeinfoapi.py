@@ -1,12 +1,10 @@
-import json
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from .models import GradeInfo
-from .paginations import get_num_page
+from api.models import GradeInfo
+from api.paginations import get_num_page
 
 
 class GradeInfoAPITest(APITestCase):
@@ -47,7 +45,7 @@ class GradeInfoAPITest(APITestCase):
     def test_get(self):
         response = self.client.get('/api/gradeinfo/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), self.dataSize)
+        self.assertEqual(response.data['count'], self.dataSize)
 
     def test_post_by_anonymousUser(self):
         response = self.client.post('/api/gradeinfo/', self.data)
@@ -116,38 +114,3 @@ class GradeInfoAPITest(APITestCase):
         ans = [10, 11, 10]
         res = [get_num_page(inp, page_size) for inp in inputs]
         self.assertEqual(res, ans)
-
-
-class BookMarkTest(APITestCase):
-
-    fixtures = ['test_data.json']
-
-    def setUp(self):
-        self.client.post('/api/bookmark/', {'bookMarkID': 1})
-
-    def test_get_bookmarks(self):
-        response = self.client.get('/api/bookmark/')
-        json_content = json.loads(response.content)
-        self.assertEqual(json_content[0]['id'], 1)
-
-    def test_post_invalid_string_bookMarkID(self):
-        data = {
-            'bookMarkID': "abc",
-        }
-        response = self.client.post('/api/bookmark/', data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.client.session.get("bookMarkIDs"), [1])
-
-    def test_post_invalid_none_bookMarkID(self):
-        data = {}
-        response = self.client.post('/api/bookmark/', data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.client.session.get("bookMarkIDs"), [1])
-
-    def test_post_valid_bookMarkID(self):
-        data = {
-            'bookMarkID': "2",
-        }
-        response = self.client.post('/api/bookmark/', data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(self.client.session.get("bookMarkIDs"), [1, 2])

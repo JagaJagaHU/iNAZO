@@ -1,6 +1,5 @@
 from django.http import Http404
 from rest_framework import generics
-from rest_framework import filters
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
@@ -10,20 +9,22 @@ from .serializers import GradeInfoSerializer
 from .models import GradeInfo
 from .permissions import ReadOnly
 from .forms import BookMarkForm
-from .orderings import OrderingFilter
+from .filters import OrderingFilter, SearchFilter
 
 
 class GradeInfoList(generics.ListCreateAPIView):
 
     queryset = GradeInfo.objects.all()
     serializer_class = GradeInfoSerializer
-    filter_backends = [filters.SearchFilter, OrderingFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     permission_classes = [IsAdminUser | ReadOnly]
     search_fields = [
         'subject', 'lecture', 'group', 'teacher', 'year', 'semester',
         'faculty',
     ]
-    ordering_fields = '__all__'
+    ordering_fields = [
+        'f', 'failure', 'a_band', 'gpa', 'year', 'semester',
+    ]
     ordering = ['-year', '-semester']
 
 
@@ -37,11 +38,7 @@ class GradeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
 class BookMarkList(APIView):
 
     ordering_fields = [
-        'ap', 'a', 'am',
-        'bp', 'b', 'bm',
-        'cp', 'c', 'd',
-        'dm', 'f', 'gpa',
-        'year', 'semester',
+        'f', 'failure', 'a_band', 'gpa', 'year', 'semester',
     ]
     ordering = ['-year', '-semester']
 
