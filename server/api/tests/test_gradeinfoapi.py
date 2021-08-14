@@ -1,12 +1,10 @@
-import json
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from .models import GradeInfo
-from .paginations import get_num_page
+from api.models import GradeInfo
+from api.paginations import get_num_page
 
 
 class GradeInfoAPITest(APITestCase):
@@ -116,65 +114,3 @@ class GradeInfoAPITest(APITestCase):
         ans = [10, 11, 10]
         res = [get_num_page(inp, page_size) for inp in inputs]
         self.assertEqual(res, ans)
-
-
-class BookMarkTest(APITestCase):
-
-    fixtures = ['test_data.json']
-
-    def setUp(self):
-        self.client.post('/api/bookmark/', {'bookMarkID': 1})
-
-    def test_get_bookmarks(self):
-        response = self.client.get('/api/bookmark/')
-        json_content = json.loads(response.content)
-        self.assertEqual(json_content[0]['id'], 1)
-
-    def test_post_invalid_string_bookMarkID(self):
-        data = {
-            'bookMarkID': "abc",
-        }
-        response = self.client.post('/api/bookmark/', data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.client.session.get("bookMarkIDs"), [1])
-
-    def test_post_invalid_none_bookMarkID(self):
-        data = {}
-        response = self.client.post('/api/bookmark/', data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.client.session.get("bookMarkIDs"), [1])
-
-    def test_post_valid_bookMarkID(self):
-        data = {
-            'bookMarkID': "2",
-        }
-        response = self.client.post('/api/bookmark/', data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(self.client.session.get("bookMarkIDs"), [1, 2])
-
-
-class FilterTest(APITestCase):
-
-    fixtures = ['test_data.json']
-
-    def test_search_roman_figure(self):
-        ROMAN_FIGURES = [
-            'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ',
-            'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ',
-            'Ⅸ',
-        ]
-        # アラビア数字で検索
-        for i in range(1, 10):
-            response = self.client.get(f'/api/gradeinfo/?search=test{i}')
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
-            res = response.json()['results']
-            self.assertEqual(len(res), 1)
-            self.assertEqual(res[0]['subject'], f'test{ROMAN_FIGURES[i-1]}')
-
-        # ローマ数字で検索
-        for i in range(1, 10):
-            response = self.client.get(f'/api/gradeinfo/?search=test{ROMAN_FIGURES[i-1]}')
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
-            res = response.json()['results']
-            self.assertEqual(len(res), 1)
-            self.assertEqual(res[0]['subject'], f'test{ROMAN_FIGURES[i-1]}')
