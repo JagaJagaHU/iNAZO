@@ -12,6 +12,7 @@ class FilterTest(APITestCase):
             'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ',
             'Ⅸ',
         ]
+        FULL_WIDTH_CHARACTER = [chr(i) for i in range(ord('１'), ord('９') + 1)]
         # アラビア数字で検索
         for i in range(1, 10):
             response = self.client.get(f'/api/gradeinfo/?search=test{i}')
@@ -19,6 +20,14 @@ class FilterTest(APITestCase):
             res = response.json()['results']
             self.assertEqual(len(res), 1)
             self.assertEqual(res[0]['subject'], f'test{ROMAN_FIGURES[i-1]}')
+
+        # 全角数字で検索
+        for i, full in enumerate(FULL_WIDTH_CHARACTER):
+            response = self.client.get(f'/api/gradeinfo/?search=test{full}')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            res = response.json()['results']
+            self.assertEqual(len(res), 1)
+            self.assertEqual(res[0]['subject'], f'test{ROMAN_FIGURES[i]}')
 
         # ローマ数字で検索
         for i in range(1, 10):
