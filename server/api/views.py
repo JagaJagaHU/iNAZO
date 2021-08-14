@@ -38,11 +38,7 @@ class GradeInfoDetail(generics.RetrieveUpdateDestroyAPIView):
 class BookMarkList(APIView):
 
     ordering_fields = [
-        'ap', 'a', 'am',
-        'bp', 'b', 'bm',
-        'cp', 'c', 'd',
-        'dm', 'f', 'gpa',
-        'year', 'semester',
+        'f', 'failure', 'a_band', 'gpa', 'year', 'semester',
     ]
     ordering = ['-year', '-semester']
 
