@@ -22,7 +22,9 @@ class GradeInfoList(generics.ListCreateAPIView):
         'subject', 'lecture', 'group', 'teacher', 'year', 'semester',
         'faculty',
     ]
-    ordering_fields = '__all__'
+    ordering_fields = [
+        'f', 'failure', 'a_band', 'gpa', 'year', 'semester',
+    ]
     ordering = ['-year', '-semester']
 
 
