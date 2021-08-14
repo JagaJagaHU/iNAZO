@@ -1,25 +1,26 @@
 import os
+import json
 
 from django.core.management.base import BaseCommand
-from django.core.management import call_command
 
 from api.models import GradeInfo
 
 
+def save_recode_if_not_exist(data):
+    for gradeData in data:
+        record = gradeData['fields']
+        if not GradeInfo.objects.filter(**record).exists():
+            GradeInfo.objects.create(**record)
+
+
 class Command(BaseCommand):
 
-    help = 'delete all gradeinfo table data and load all json data.'
+    help = 'load all json data without overwriting.'
 
     def add_arguments(self, parser):
         parser.add_argument('--test', action='store_true')
 
     def handle(self, *args, **options):
-
-        text = 'このコマンドはgradeinfoテーブルのデータを全て消去します。よろしいですか？[y/n] : '
-        if GradeInfo.objects.exists() and input(text) != 'y':
-            return
-
-        GradeInfo.objects.all().delete()
 
         dataDir = "scraping/testdata/" if options.get("test") else "scraping/data/"
 
@@ -27,5 +28,7 @@ class Command(BaseCommand):
             for filename in files:
                 filePath = os.path.join(curDir, filename)
                 self.stdout.write(filePath)
-                command_args = ['loaddata', filePath]
-                call_command(*command_args, stdout=self.stdout)
+
+                with open(filePath, 'r') as f:
+                    data = json.load(f)
+                    save_recode_if_not_exist(data)

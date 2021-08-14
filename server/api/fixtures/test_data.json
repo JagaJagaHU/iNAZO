@@ -1,6 +1,7 @@
 [
     {
     "model": "api.gradeinfo",
+    "pk":1,
     "fields": {
         "subject": "test",
         "lecture": "Japanese test",
@@ -26,6 +27,7 @@
 },
     {
     "model": "api.gradeinfo",
+    "pk":2,
     "fields": {
         "subject": "Introduction test",
         "lecture": " ",
@@ -51,6 +53,7 @@
 },
     {
     "model": "api.gradeinfo",
+    "pk":3,
     "fields": {
         "subject": "Multiculturality test",
         "lecture": " ",
