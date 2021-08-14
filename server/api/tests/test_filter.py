@@ -27,3 +27,63 @@ class FilterTest(APITestCase):
             res = response.json()['results']
             self.assertEqual(len(res), 1)
             self.assertEqual(res[0]['subject'], f'test{ROMAN_FIGURES[i-1]}')
+
+    def test_ordering_filter(self):
+        # f (昇順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=f')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [13, 15, 14])
+
+        # f (降順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=-f')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [14, 15, 13])
+
+        # failure (昇順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=failure')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [13, 15, 14])
+
+        # failure (降順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=-failure')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [14, 15, 13])
+
+        # a_band (降順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=a_band')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [13, 14, 15])
+
+        # a_band (降順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=-a_band')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [15, 14, 13])
+
+        # gpa (昇順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=gpa')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [13, 14, 15])
+
+        # gpa (降順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=-gpa')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [15, 14, 13])
+
+        # year (昇順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=year')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [15, 13, 14])
+
+        # year (降順)
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=-year')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [14, 13, 15])
+
+        # default
+        response = self.client.get('/api/gradeinfo/?search=ordering&ordering=-year')
+        actual = self.get_pk_from_list(response.json()['results'])
+        self.assertEqual(actual, [14, 13, 15])
+
+    @staticmethod
+    def get_pk_from_list(arr):
+        return list(map(lambda x: x['id'], arr))
