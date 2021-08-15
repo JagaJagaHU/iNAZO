@@ -11,6 +11,7 @@
         
         <BottomNavigation class="d-sm-none" />
         <Footer />
+        <GoTopBtn />
     </v-app>
 </template>
 
@@ -18,6 +19,7 @@
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import BottomNavigation from './components/BottomNavigation';
+import GoTopBtn from './components/GoTopBtn';
 
 export default {
     name: 'App',
@@ -25,6 +27,7 @@ export default {
         Header,
         Footer,
         BottomNavigation,
+        GoTopBtn,
     },
     data: () => ({
         titleInner: 'ホーム',
