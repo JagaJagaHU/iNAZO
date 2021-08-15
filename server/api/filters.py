@@ -1,5 +1,6 @@
 import operator
 from functools import reduce
+import re
 
 from django.db import models
 from django.db.models import F
@@ -89,6 +90,25 @@ class SearchFilter(BaseSearchFilter):
             replaced_terms.append(term)
 
         return replaced_terms
+
+    def replace_japanese_year(self, params):
+
+        def year_repl(matchobj):
+            return matchobj[0][:4]
+
+        params = re.sub(r'\d\d\d\d年度?', year_repl, params)
+        return params
+
+    def get_search_terms(self, request):
+        """
+        Search terms are set by a ?search=... query parameter,
+        and may be comma and/or whitespace delimited.
+        """
+        params = request.query_params.get(self.search_param, '')
+        params = params.replace('\x00', '')  # strip null characters
+        params = params.replace(',', ' ')
+        params = self.replace_japanese_year(params)
+        return params.split()
 
     def filter_queryset(self, request, queryset, view):
         search_fields = self.get_search_fields(view, request)
