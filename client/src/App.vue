@@ -8,7 +8,8 @@
         >
             <router-view />
         </v-main>
-
+        
+        <BottomNavigation class="d-sm-none" />
         <Footer />
     </v-app>
 </template>
@@ -16,12 +17,14 @@
 <script>
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
+import BottomNavigation from './components/BottomNavigation';
 
 export default {
     name: 'App',
     components: {
         Header,
         Footer,
+        BottomNavigation,
     },
     data: () => ({
         titleInner: 'ホーム',
