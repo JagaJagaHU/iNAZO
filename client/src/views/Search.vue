@@ -110,60 +110,20 @@
                     :key="i"
                     :cols="chartGridCol"
                 >
-                    <v-sheet class="pa-3">
-                        <v-skeleton-loader
-                            class="mx-auto"
-                            type="card"
-                        />
-                    </v-sheet>
+                    <SkeletonCard />
                 </v-col>
             </template>
-
             <template v-else>
                 <v-col
                     v-for="(item, index) in items"
                     :key="item.id"
                     :cols="chartGridCol"
                 >
-                    <v-card
-                        class="my-5"
-                        flat
-                        outlined
-                    >
-                        <v-card-title v-if="item.subject == ' '">
-                            {{ item.lecture }}
-                        </v-card-title>
-                        <v-card-title v-else>
-                            {{ item.subject }} &emsp; {{ item.lecture }}
-                        </v-card-title>
-
-                        <v-card-text>
-                            <Star
-                                :active="item.isBookMark"
-                                @click="postBookMark(index)"
-                            />
-                            <p class="card-text">
-                                {{ item.year }}年度 {{ item.semester }}
-                            </p>
-                            <p class="card-text">
-                                開講学部：{{ item.faculty }}
-                            </p>
-                            <p class="card-text">
-                                クラス：{{ item.group }}
-                            </p>
-                            <p class="card-text">
-                                履修者数 : {{ item.numOfStudents }}人
-                            </p>
-                            <p>担当教員名：{{ item.teacher }}</p>
-                            <p>GPA : {{ item.gpa }}</p>
-                        </v-card-text>
-                        <v-card-text>
-                            <BarChart
-                                :chart-data="getChartData(item)"
-                                :styles="chartStyle"
-                            />
-                        </v-card-text>
-                    </v-card>
+                    <MainCard
+                        :item="item"
+                        :index="index"
+                        @starClick="postBookMark(index)"
+                    />
                 </v-col>
             </template>
         </v-row>
@@ -185,8 +145,8 @@
 </template>
 
 <script>
-import BarChart from '../components/BarChart.vue';
-import Star from '../components/Star.vue';
+import MainCard from '../components/search/Card.vue';
+import SkeletonCard from '../components/search/SkeletonCard.vue';
 import Pagination from '../components/search/Pagination.vue';
 
 const protocol = process.env.VUE_APP_PROTOCOL;
@@ -199,23 +159,26 @@ const HTTP_204_NO_CONTENT = 204;
 
 export default {
     components: {
-        BarChart,
-        Star,
+        MainCard,
         Pagination,
+        SkeletonCard
     },
     data() {
         return {
-            items: [{}, {}, {}, {}, {}, {}], // 初期は空のオブジェクトを持つようにする
+            // MainCard
+            items: [],
             bookMarkIDs: [],
+            isVisible: false,
+            // Pagination
             currentPage: 1,
             totalVisible: 0,
             size: 0,
+            count: null,
+
             search: '',
             searchResultText: null,
             chartGridCol: 12,
-            chartHight: 300,
-            isVisible: false,
-            count: null,
+            
             query: {
                 search: '',
                 ordering: '',
@@ -245,14 +208,6 @@ export default {
         window.scrollTo(0, 0);
         this.fetchGradeAPIData();
         next();
-    },
-    computed: {
-        chartStyle() {
-            return {
-                height: `${this.chartHight}px`,
-                position: 'relative',
-            };
-        },
     },
     created() {
     // 画面サイズがxsなら表示個数を減らす
@@ -301,49 +256,6 @@ export default {
             this.$router.push(fullURL).catch((err) => {}); // eslint-disable-line no-unused-vars
         },
 
-        joinQuery(url) {
-            let queryURL = '';
-            Object.keys(this.query).forEach(
-                (key) => (queryURL += '&' + key + '=' + this.query[key])
-            );
-            if (url.indexOf('?') == -1) {
-                queryURL = queryURL.replace('&', '?'); // 先頭の&を?に置換
-            }
-            return url + queryURL;
-        },
-
-        async postBookMark(index) {
-            const item = this.items[index];
-            const bookMarkID = item.id;
-
-            if (item.isBookMark) {
-                // ブックマーク解除
-                const res = await this.axios.delete(`${bookmarkURL}${bookMarkID}/`, {
-                    withCredentials: true,
-                });
-                if (res.status == HTTP_204_NO_CONTENT) {
-                    this.bookMarkIDs = this.bookMarkIDs.filter((id) => id != bookMarkID);
-                    item.isBookMark = !item.isBookMark;
-                    this.$set(this.items, index, item);
-                }
-            } else {
-                // 登録
-                const res = await this.axios.post(
-                    bookmarkURL,
-                    { bookMarkID: bookMarkID },
-                    {
-                        withCredentials: true,
-                    }
-                );
-
-                if (res.status == HTTP_201_CREATED) {
-                    this.bookMarkIDs = res.data.bookMarkIDs;
-                    item.isBookMark = !item.isBookMark;
-                    this.$set(this.items, index, item);
-                }
-            }
-        },
-
         async fetchGradeAPIData() {
             this.isVisible = false;
 
@@ -375,41 +287,48 @@ export default {
             this.bookMarkIDs = res.data.map((item) => item.id);
         },
 
-        getChartData(item) {
-            return {
-                labels: ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'D-', 'F'],
-                datasets: [
+        async postBookMark(index) {
+            // Objectをコピーする必要がある。
+            const item = Object.assign({}, this.items[index]);
+            const bookMarkID = item.id;
+
+            if (item.isBookMark) {
+                // ブックマーク解除
+                const res = await this.axios.delete(`${bookmarkURL}${bookMarkID}/`, {
+                    withCredentials: true,
+                });
+                if (res.status == HTTP_204_NO_CONTENT) {
+                    this.bookMarkIDs = this.bookMarkIDs.filter((id) => id != bookMarkID);
+                    item.isBookMark = !item.isBookMark;
+                    this.$set(this.items, index, item);
+                }
+            } else {
+                // 登録
+                const res = await this.axios.post(
+                    bookmarkURL,
+                    { bookMarkID: bookMarkID },
                     {
-                        label: '人数',
-                        backgroundColor: [
-                            'rgba(33, 150, 243, 1)',
-                            'rgba(33, 150, 243, 1)',
-                            'rgba(33, 150, 243, 1)',
-                            'rgba(187, 222, 251, 1)',
-                            'rgba(187, 222, 251, 1)',
-                            'rgba(187, 222, 251, 1)',
-                            'rgba(255, 152, 0, 1)',
-                            'rgba(255, 152, 0, 1)',
-                            'rgba(244, 67, 54, 1)',
-                            'rgba(244, 67, 54, 1)',
-                            'rgba(244, 67, 54, 1)',
-                        ],
-                        data: [
-                            item.ap,
-                            item.a,
-                            item.am,
-                            item.bp,
-                            item.b,
-                            item.bm,
-                            item.cp,
-                            item.c,
-                            item.d,
-                            item.dm,
-                            item.f,
-                        ],
-                    },
-                ],
-            };
+                        withCredentials: true,
+                    }
+                );
+
+                if (res.status == HTTP_201_CREATED) {
+                    this.bookMarkIDs = res.data.bookMarkIDs;
+                    item.isBookMark = !item.isBookMark;
+                    this.$set(this.items, index, item);
+                }
+            }
+        },
+
+        joinQuery(url) {
+            let queryURL = '';
+            Object.keys(this.query).forEach(
+                (key) => (queryURL += '&' + key + '=' + this.query[key])
+            );
+            if (url.indexOf('?') == -1) {
+                queryURL = queryURL.replace('&', '?'); // 先頭の&を?に置換
+            }
+            return url + queryURL;
         },
     },
 };
