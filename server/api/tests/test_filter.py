@@ -93,6 +93,25 @@ class FilterTest(APITestCase):
         actual = self.get_pk_from_list(response.json()['results'])
         self.assertEqual(actual, [14, 13, 15])
 
+    def test_year(self):
+        response = self.client.get('/api/gradeinfo/?search=9999')
+        res = response.json()['results']
+        self.assertEqual(len(res), 1)
+        actual = res[0]['id']
+        self.assertEqual(actual, 16)
+
+        response = self.client.get('/api/gradeinfo/?search=9999年')
+        res = response.json()['results']
+        self.assertEqual(len(res), 1)
+        actual = res[0]['id']
+        self.assertEqual(actual, 16)
+
+        response = self.client.get('/api/gradeinfo/?search=9999年度')
+        res = response.json()['results']
+        self.assertEqual(len(res), 1)
+        actual = res[0]['id']
+        self.assertEqual(actual, 16)
+
     @staticmethod
     def get_pk_from_list(arr):
         return list(map(lambda x: x['id'], arr))

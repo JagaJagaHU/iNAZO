@@ -388,5 +388,31 @@
         "f": 8,
         "gpa": 3.08
     }
+},
+{
+    "model": "api.gradeinfo",
+    "pk":16,
+    "fields": {
+        "subject": "年度テスト",
+        "lecture": " ",
+        "group": "現代test",
+        "teacher": "test",
+        "year": "9999",
+        "semester": "2学期",
+        "faculty": "総合教育部",
+        "numOfStudents": 198,
+        "ap": 16,
+        "a": 24,
+        "am": 30,
+        "bp": 39,
+        "b": 25,
+        "bm": 24,
+        "cp": 17,
+        "c": 12,
+        "d": 3,
+        "dm": 0,
+        "f": 8,
+        "gpa": 3.08
+    }
 }
 ]
