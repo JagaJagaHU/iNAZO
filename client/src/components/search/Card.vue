@@ -4,14 +4,35 @@
         flat
         outlined
     >
-        <v-card-title v-if="item.subject == ' '">
-            {{ item.lecture }}
+        <v-card-title>
+            <router-link
+                v-if="item.subject == ' '"
+                text
+                :to="`/detail/${item.id}`"
+                color="primary"
+                x-large
+                class="px-0 text-h6"
+            >
+                {{ item.lecture }}
+            </router-link>
+            <router-link
+                v-else
+                text
+                :to="`/detail/${item.id}`"
+                color="primary"
+                x-large
+                class="px-0 text-h6"
+            >
+                {{ item.subject }}
+                <template v-if="item.lecture != ' '">
+                    &nbsp; {{ item.lecture }}
+                </template>
+            </router-link>
         </v-card-title>
-        <v-card-title v-else>
-            {{ item.subject }} &emsp; {{ item.lecture }}
-        </v-card-title>
+        
 
         <v-card-text>
+            <TwitterShareBtn :id="item.id" />
             <Star
                 :active="item.isBookMark"
                 @click="$emit('starClick', index)"
@@ -31,6 +52,7 @@
             <p>担当教員名：{{ item.teacher }}</p>
             <p>GPA : {{ item.gpa }}</p>
         </v-card-text>
+        
         <v-card-text>
             <BarChart
                 :chart-data="getChartData(item)"
@@ -43,11 +65,13 @@
 <script>
 import BarChart from './BarChart.vue';
 import Star from './Star.vue';
+import TwitterShareBtn from './TwitterShareBtn';
 
 export default {
     components: {
         BarChart,
         Star,
+        TwitterShareBtn,
     },
     props: {
         item: {
@@ -114,3 +138,10 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+a {
+    text-decoration: none;
+}
+
+</style>

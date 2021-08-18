@@ -147,24 +147,29 @@ export default {
         },
 
         async postBookMark(index) {
-            const item = this.items[index];
+            // Objectをコピーする必要がある。
+            const item = Object.assign({}, this.items[index]);
             const bookMarkID = item.id;
 
             if (item.isBookMark) {
                 // ブックマーク解除
                 const res = await this.axios.delete(`${bookmarkURL}${bookMarkID}/`, {
-                    withCredentials: true
+                    withCredentials: true,
                 });
                 if (res.status == HTTP_204_NO_CONTENT) {
-                    this.bookMarkIDs = this.bookMarkIDs.filter(id => id != bookMarkID);
+                    this.bookMarkIDs = this.bookMarkIDs.filter((id) => id != bookMarkID);
                     item.isBookMark = !item.isBookMark;
                     this.$set(this.items, index, item);
                 }
             } else {
                 // 登録
-                const res = await this.axios.post(bookmarkURL, {'bookMarkID': bookMarkID}, {
-                    withCredentials: true
-                });
+                const res = await this.axios.post(
+                    bookmarkURL,
+                    { bookMarkID: bookMarkID },
+                    {
+                        withCredentials: true,
+                    }
+                );
 
                 if (res.status == HTTP_201_CREATED) {
                     this.bookMarkIDs = res.data.bookMarkIDs;

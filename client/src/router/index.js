@@ -24,6 +24,12 @@ const routes = [
         meta: { title: 'ブックマーク一覧', desc: 'ブックマーク一覧を表示' },
     },
     {
+        path: '/detail/:id',
+        name: 'Detail',
+        component: () => import('../views/Detail.vue'),
+        meta: { title: '成績詳細ページ', desc: '個別に成績を表示' },
+    },
+    {
         path: '*',
         name: '404',
         component: () => import('../views/404.vue'),
