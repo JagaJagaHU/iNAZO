@@ -51,60 +51,20 @@
                     :key="i"
                     :cols="chartGridCol"
                 >
-                    <v-sheet class="pa-3">
-                        <v-skeleton-loader
-                            class="mx-auto"
-                            type="card"
-                        />
-                    </v-sheet>
+                    <SkeletonCard />
                 </v-col>
             </template>
-
             <template v-else>
                 <v-col
                     v-for="(item, index) in items"
                     :key="item.id"
                     :cols="chartGridCol"
                 >
-                    <v-card
-                        class="my-5"
-                        flat
-                        outlined
-                    >
-                        <v-card-title v-if="item.subject == ' '">
-                            {{ item.lecture }}
-                        </v-card-title>
-                        <v-card-title v-else>
-                            {{ item.subject }} &emsp; {{ item.lecture }}
-                        </v-card-title>
-
-                        <v-card-text>
-                            <Star
-                                :active="item.isBookMark"
-                                @click="postBookMark(index)"
-                            />
-                            <p class="card-text">
-                                {{ item.year }}年度 {{ item.semester }}
-                            </p>
-                            <p class="card-text">
-                                開講学部：{{ item.faculty }}
-                            </p>
-                            <p class="card-text">
-                                クラス：{{ item.group }}
-                            </p>
-                            <p class="card-text">
-                                履修者数 : {{ item.numOfStudents }}人
-                            </p>
-                            <p>担当教員名：{{ item.teacher }}</p>
-                            <p>GPA : {{ item.gpa }}</p>
-                        </v-card-text>
-                        <v-card-text>
-                            <BarChart
-                                :chart-data="getChartData(item)"
-                                :styles="chartStyle"
-                            />
-                        </v-card-text>
-                    </v-card>
+                    <MainCard
+                        :item="item"
+                        :index="index"
+                        @starClick="postBookMark(index)"
+                    />
                 </v-col>
             </template>
         </v-row>
@@ -112,8 +72,8 @@
 </template>
 
 <script>
-import BarChart from '../components/BarChart.vue';
-import Star from '../components/Star.vue';
+import MainCard from '../components/search/Card.vue';
+import SkeletonCard from '../components/search/SkeletonCard.vue';
 
 const protocol = process.env.VUE_APP_PROTOCOL;
 const origin = process.env.VUE_APP_ORIGIN;
@@ -124,16 +84,18 @@ const HTTP_204_NO_CONTENT = 204;
 
 export default {
     components: {
-        BarChart,
-        Star,
+        MainCard,
+        SkeletonCard
     },
     data() {
         return {
-            items: [{},{},{},{},{},{},],
+            // Main Card
+            items: [],
             bookMarkIDs: [],
+            isVisible: false,
+
             chartGridCol: 12,
             chartHight: 300,
-            isVisible: false,
             sortItems: [
                 { text: '新着順', value: '' },
                 { text: 'GPA (降順)', value: '-gpa' },
@@ -152,14 +114,6 @@ export default {
                 'ordering': '',
             },
         };
-    },
-    computed: {
-        chartStyle() {
-            return {
-                height:`${this.chartHight}px`,
-                position: 'relative',
-            };
-        }
     },
     created() {
         this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
@@ -193,24 +147,29 @@ export default {
         },
 
         async postBookMark(index) {
-            const item = this.items[index];
+            // Objectをコピーする必要がある。
+            const item = Object.assign({}, this.items[index]);
             const bookMarkID = item.id;
 
             if (item.isBookMark) {
                 // ブックマーク解除
                 const res = await this.axios.delete(`${bookmarkURL}${bookMarkID}/`, {
-                    withCredentials: true
+                    withCredentials: true,
                 });
                 if (res.status == HTTP_204_NO_CONTENT) {
-                    this.bookMarkIDs = this.bookMarkIDs.filter(id => id != bookMarkID);
+                    this.bookMarkIDs = this.bookMarkIDs.filter((id) => id != bookMarkID);
                     item.isBookMark = !item.isBookMark;
                     this.$set(this.items, index, item);
                 }
             } else {
                 // 登録
-                const res = await this.axios.post(bookmarkURL, {'bookMarkID': bookMarkID}, {
-                    withCredentials: true
-                });
+                const res = await this.axios.post(
+                    bookmarkURL,
+                    { bookMarkID: bookMarkID },
+                    {
+                        withCredentials: true,
+                    }
+                );
 
                 if (res.status == HTTP_201_CREATED) {
                     this.bookMarkIDs = res.data.bookMarkIDs;
@@ -237,32 +196,6 @@ export default {
             });
             
             this.isVisible = true;
-        },
-
-        getChartData(item) {
-            return {
-                labels: ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'D-', 'F'],
-                datasets: [
-                    {
-                        label: '人数',
-                        backgroundColor: [
-                            'rgba(33, 150, 243, 1)',
-                            'rgba(33, 150, 243, 1)',
-                            'rgba(33, 150, 243, 1)',
-                            'rgba(187, 222, 251, 1)',
-                            'rgba(187, 222, 251, 1)',
-                            'rgba(187, 222, 251, 1)',
-                            'rgba(255, 152, 0, 1)',
-                            'rgba(255, 152, 0, 1)',
-                            'rgba(244, 67, 54, 1)',
-                            'rgba(244, 67, 54, 1)',
-                            'rgba(244, 67, 54, 1)',
-                        ],
-                        data: [item.ap, item.a, item.am, item.bp, item.b,
-                            item.bm, item.cp, item.c, item.d, item.dm, item.f],
-                    }
-                ]
-            };
         },
     }
 };
