@@ -22,13 +22,13 @@ jobs:
           node-version: '14'
       
       - name: Install package
-        run: npm ci
+        run: yarn ci
       
       - name: Run lint
-        run: npm run lint
+        run: yarn run lint
       
       - name: Build test
-        run: npm run prod-build
+        run: yarn run prod-build
   
   server:
     runs-on: ubuntu-latest
