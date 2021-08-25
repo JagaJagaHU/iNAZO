@@ -2,12 +2,13 @@
     <v-container>
         <v-row>
             <v-col>
-                <h1 v-if="error.statusCode === 404">
-                    Page not found
-                </h1>
-                <h1 v-else>
-                    An error occurred
-                </h1>
+                <template v-if="error.statusCode === 404">
+                    <h1>Page not found</h1>
+                </template>
+                <template v-else>
+                    <h1>An error occurred</h1>
+                    <p>{{ error.message }}</p>
+                </template>
             </v-col>
         </v-row>
     </v-container>
