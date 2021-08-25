@@ -19,7 +19,7 @@ export default {
             { hid: 'og:description', name: 'og:description', content: '北大の成績分布をグラフにしました。ソート検索やブックマークでカスタマイズして、行きたい学部に行こう！' },
             { hid: 'og:site_name', name: 'og:site_name', content: '成績分布検索サービス - iNAZO' },
             { hid: 'og:image', name: 'og:image', content: '/logo.png' },
-            { hid: 'twitter:card', name: 'twitter:card', content: 'summary' },
+            { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
             { hid: 'twitter:image', name: 'twitter:image', content: 'https://inazo.hu-jagajaga.com/logo.png' }
         ],
         link: [
