@@ -224,13 +224,11 @@ export default {
             ]
         };
     },
-    beforeMount () {
+    async mounted () {
+        await this.fetchBookmarkAPIdata();
         // 画面サイズがxsなら表示個数を減らす
         this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
         this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
-    },
-    async mounted () {
-        await this.fetchBookmarkAPIdata();
     },
     methods: {
         filterSearch () {

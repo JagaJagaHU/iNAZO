@@ -129,14 +129,10 @@ export default {
             ]
         };
     },
-    beforeMount () {
-        this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
-    },
     async mounted () {
-        if (this.$route.fullpath !== '/service') {
-            this.query.ordering = this.$route.query.ordering || '';
-        }
+        this.query.ordering = this.$route.query.ordering || '';
         await this.fetchBookmarkAPIData();
+        this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
     },
     methods: {
         sort () {
