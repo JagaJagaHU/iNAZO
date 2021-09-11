@@ -130,7 +130,7 @@ export default {
     },
     computed: {
         ogpImageURL () {
-            const url = `https:/${ogpDomain}/inazo-ogp-image.vercel.app/?data=${E(this.ogpInfo.data.join(','))}&title=${E(this.ogpInfo.title)}&subtitle=${E(this.ogpInfo.subtitle)}`;
+            const url = `https://${ogpDomain}/inazo-ogp-image.vercel.app/?data=${E(this.ogpInfo.data.join(','))}&title=${E(this.ogpInfo.title)}&subtitle=${E(this.ogpInfo.subtitle)}`;
             return url;
         }
     },
