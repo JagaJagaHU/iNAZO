@@ -124,6 +124,16 @@ export default {
                     hid: 'twitter:image',
                     name: 'twitter:image',
                     content: this.ogpImageURL
+                },
+                {
+                    hid: 'twitter:card',
+                    name: 'twitter:card',
+                    content: 'summary_large_image'
+                },
+                {
+                    hid: 'og:image',
+                    name: 'og:image',
+                    content: this.ogpImageURL
                 }
             ]
         };
