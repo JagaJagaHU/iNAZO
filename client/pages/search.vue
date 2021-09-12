@@ -146,6 +146,7 @@
 
 <script>
 import axios from 'axios';
+import MobileDetect from 'mobile-detect';
 
 const protocol = process.env.PROTOCOL;
 const origin = process.env.ORIGIN;
@@ -211,6 +212,16 @@ export default {
         }
 
         await this.fetchGradeAPIData();
+
+        if (process.server) {
+            const headers = this.$nuxt.context.req.headers;
+            await this.fetchBookmarkAPIdata(headers);
+            const md = new MobileDetect(headers['user-agent']);
+            this.chartGridCol = md.mobile() ? 12 : 6;
+            this.totalVisible = md.mobile() ? 5 : 10;
+        } else {
+            await this.fetchBookmarkAPIdata();
+        }
     },
     head () {
         return {
@@ -224,8 +235,7 @@ export default {
             ]
         };
     },
-    async mounted () {
-        await this.fetchBookmarkAPIdata();
+    mounted () {
         // 画面サイズがxsなら表示個数を減らす
         this.totalVisible = window.innerWidth <= 600 ? 5 : 10;
         this.chartGridCol = window.innerWidth <= 600 ? 12 : 6;
@@ -284,10 +294,12 @@ export default {
         },
 
         // ページに訪れた時のみに使用
-        async fetchBookmarkAPIdata () {
-            const res = await axios.get(bookmarkURL, {
+        async fetchBookmarkAPIdata (headers) {
+            const options = {
                 withCredentials: true
-            });
+            };
+            if (headers) { options.headers = { cookie: headers.cookie }; }
+            const res = await axios.get(bookmarkURL, options);
             this.bookMarkIDs = res.data.map(item => item.id);
             this.items.forEach((item) => {
                 this.$set(item, 'isBookMark', this.bookMarkIDs.includes(item.id));
@@ -330,7 +342,7 @@ export default {
         joinQuery (url) {
             let queryURL = '';
             Object.keys(this.query).forEach(
-                key => (queryURL += '&' + key + '=' + this.query[key])
+                key => (queryURL += '&' + key + '=' + encodeURIComponent(this.query[key]))
             );
             if (!url.includes('?')) {
                 queryURL = queryURL.replace('&', '?'); // 先頭の&を?に置換

@@ -30,7 +30,7 @@ const protocol = process.env.PROTOCOL;
 const origin = 'inazo.hu-jagajaga.com';
 
 const content = '成績分布検索サービス - iNAZO';
-const hashtags = 'iNAZO_HU';
+const hashtags = '%23iNAZO_HU';
 
 export default {
     props: {
@@ -41,12 +41,12 @@ export default {
     },
     data () {
         return {
-            text: `${content}%0a${protocol}://${origin}/detail/${this.id}`
+            text: `${content}%0a${hashtags}%0a${protocol}://${origin}/detail/${this.id}`
         };
     },
     computed: {
         twitterShareURL () {
-            return `https://twitter.com/intent/tweet?text=${this.text}&hashtags=${hashtags}`;
+            return `https://twitter.com/intent/tweet?text=${this.text}`;
         }
     }
 };
