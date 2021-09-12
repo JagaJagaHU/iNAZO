@@ -73,6 +73,7 @@
 
 <script>
 import axios from 'axios';
+import MobileDetect from 'mobile-detect';
 import chartMixin from '@/mixins/chart-mixin';
 
 const protocol = process.env.PROTOCOL;
@@ -99,6 +100,13 @@ export default {
                 }
             ]
         };
+    },
+    created () {
+        if (process.server) {
+            const headers = this.$nuxt.context.req.headers;
+            const md = new MobileDetect(headers['user-agent']);
+            this.chartGridCol = md.mobile() ? 12 : 6;
+        }
     },
     async mounted () {
         this.query.ordering = this.$route.query.ordering || '';
