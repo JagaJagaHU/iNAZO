@@ -91,14 +91,7 @@ export default {
     },
     head () {
         return {
-            title: 'ブックマーク一覧',
-            meta: [
-                {
-                    hid: 'og:description',
-                    name: 'og:description',
-                    content: 'ブックマーク一覧を表示します'
-                }
-            ]
+            title: 'ブックマーク一覧'
         };
     },
     created () {

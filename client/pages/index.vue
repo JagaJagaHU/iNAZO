@@ -288,14 +288,7 @@ export default {
     },
     head () {
         return {
-            title: 'ホームページ',
-            meta: [
-                {
-                    hid: 'og:description',
-                    name: 'og:description',
-                    content: '北大の成績分布をグラフにしました。ソート検索やブックマークでカスタマイズして、行きたい学部に行こう！'
-                }
-            ]
+            title: 'ホームページ'
         };
     },
 

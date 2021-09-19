@@ -199,14 +199,7 @@ export default {
     },
     head () {
         return {
-            title: '成績検索',
-            meta: [
-                {
-                    hid: 'og:description',
-                    name: 'og:description',
-                    content: '成績分布検索サービスを利用するページです。'
-                }
-            ]
+            title: `${this.query.search ? this.query.search + ' - ' : ''}成績検索`
         };
     },
     mounted () {
