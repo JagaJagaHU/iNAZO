@@ -28,7 +28,7 @@ jobs:
         run: yarn run lint
       
       - name: Build test
-        run: yarn run prod-build
+        run: yarn run build
   
   server:
     runs-on: ubuntu-latest
