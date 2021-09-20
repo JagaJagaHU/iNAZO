@@ -1,36 +1,38 @@
 <template>
     <v-container>
-        <!-- 表示・検索機能 -->
-        <v-row>
-            <v-spacer />
+        <client-only>
+            <!-- 表示・検索機能 -->
+            <v-row>
+                <v-spacer />
 
-            <v-col
-                class="d-none d-sm-flex mx-5 mx-sm-0"
-                cols="6"
-                sm="2"
-            >
-                <v-select
-                    v-model="chartGridCol"
-                    prepend-icon="mdi-grid-large"
-                    label="grid"
-                    :items="gridItems"
-                />
-            </v-col>
+                <v-col
+                    class="d-none d-sm-flex mx-5 mx-sm-0"
+                    cols="6"
+                    sm="2"
+                >
+                    <v-select
+                        v-model="chartGridCol"
+                        prepend-icon="mdi-grid-large"
+                        label="grid"
+                        :items="gridItems"
+                    />
+                </v-col>
 
-            <v-col
-                class="mx-5 mx-sm-0"
-                cols="6"
-                sm="2"
-            >
-                <v-select
-                    v-model="query.ordering"
-                    prepend-icon="mdi-sort-descending"
-                    :items="sortItems"
-                    label="Sort"
-                    @change="sort"
-                />
-            </v-col>
-        </v-row>
+                <v-col
+                    class="mx-5 mx-sm-0"
+                    cols="6"
+                    sm="2"
+                >
+                    <v-select
+                        v-model="query.ordering"
+                        prepend-icon="mdi-sort-descending"
+                        :items="sortItems"
+                        label="Sort"
+                        @change="sort"
+                    />
+                </v-col>
+            </v-row>
+        </client-only>
 
         <v-row>
             <v-col>

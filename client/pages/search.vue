@@ -14,81 +14,83 @@
             </v-col>
         </v-row>
 
-        <!-- 表示・検索機能 PC -->
-        <v-row class="d-none d-sm-flex">
-            <v-col cols="5">
-                <v-text-field
-                    v-model="search"
-                    clearable
-                    outlined
-                    label="講義を検索する"
-                    prepend-inner-icon="mdi-magnify"
-                    clear-icon="mdi-close-circle"
-                    hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
-                    autocomplete="off"
-                    @keydown.enter="filterSearch"
-                />
-            </v-col>
+        <client-only>
+            <!-- 表示・検索機能 PC -->
+            <v-row class="d-none d-sm-flex">
+                <v-col cols="5">
+                    <v-text-field
+                        v-model="search"
+                        clearable
+                        outlined
+                        label="講義を検索する"
+                        prepend-inner-icon="mdi-magnify"
+                        clear-icon="mdi-close-circle"
+                        hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
+                        autocomplete="off"
+                        @keydown.enter="filterSearch"
+                    />
+                </v-col>
 
-            <v-spacer />
+                <v-spacer />
 
-            <v-col cols="2">
-                <v-select
-                    v-model="chartGridCol"
-                    prepend-icon="mdi-grid-large"
-                    :items="gridItems"
-                    label="grid"
-                />
-            </v-col>
+                <v-col cols="2">
+                    <v-select
+                        v-model="chartGridCol"
+                        prepend-icon="mdi-grid-large"
+                        :items="gridItems"
+                        label="grid"
+                    />
+                </v-col>
 
-            <v-col cols="2">
-                <v-select
-                    v-model="query.ordering"
-                    prepend-icon="mdi-sort-descending"
-                    :items="sortItems"
-                    label="Sort"
-                    @change="sort"
-                />
-            </v-col>
-        </v-row>
+                <v-col cols="2">
+                    <v-select
+                        v-model="query.ordering"
+                        prepend-icon="mdi-sort-descending"
+                        :items="sortItems"
+                        label="Sort"
+                        @change="sort"
+                    />
+                </v-col>
+            </v-row>
 
-        <!-- 表示・検索機能 スマホ -->
-        <v-row class="d-sm-none">
-            <v-col cols="12">
-                <v-text-field
-                    v-model="search"
+            <!-- 表示・検索機能 スマホ -->
+            <v-row class="d-sm-none">
+                <v-col cols="12">
+                    <v-text-field
+                        v-model="search"
+                        class="mx-5"
+                        label="講義を検索する"
+                        clearable
+                        outlined
+                        prepend-inner-icon="mdi-magnify"
+                        clear-icon="mdi-close-circle"
+                        hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
+                        @keydown.enter="filterSearch"
+                    />
+                </v-col>
+            </v-row>
+
+            <v-row class="d-sm-none">
+                <v-spacer />
+
+                <v-col
+                    cols="6"
                     class="mx-5"
-                    label="講義を検索する"
-                    clearable
-                    outlined
-                    prepend-inner-icon="mdi-magnify"
-                    clear-icon="mdi-close-circle"
-                    hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
-                    @keydown.enter="filterSearch"
-                />
-            </v-col>
-        </v-row>
+                >
+                    <v-select
+                        v-model="query.ordering"
+                        prepend-icon="mdi-sort-descending"
+                        label="Sort"
+                        :items="sortItems"
+                        @change="sort"
+                    />
+                </v-col>
+            </v-row>
 
-        <v-row class="d-sm-none">
-            <v-spacer />
-
-            <v-col
-                cols="6"
-                class="mx-5"
-            >
-                <v-select
-                    v-model="query.ordering"
-                    prepend-icon="mdi-sort-descending"
-                    label="Sort"
-                    :items="sortItems"
-                    @change="sort"
-                />
-            </v-col>
-        </v-row>
-
-        <v-row class="d-sm-none">
-            <v-spacer />
-        </v-row>
+            <v-row class="d-sm-none">
+                <v-spacer />
+            </v-row>
+        </client-only>
 
         <!-- Alert-->
         <v-row>

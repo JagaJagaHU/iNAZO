@@ -1,38 +1,40 @@
 <template>
     <v-container>
-        <!-- 表示・検索機能 PC -->
-        <v-row class="d-none d-sm-flex">
-            <v-col cols="5">
-                <v-text-field
-                    v-model="search"
-                    clearable
-                    outlined
-                    label="講義を検索する"
-                    prepend-inner-icon="mdi-magnify"
-                    clear-icon="mdi-close-circle"
-                    hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
-                    autocomplete="off"
-                    @keydown.enter="filterSearch"
-                />
-            </v-col>
-        </v-row>
+        <client-only>
+            <!-- 表示・検索機能 PC -->
+            <v-row class="d-none d-sm-flex">
+                <v-col cols="5">
+                    <v-text-field
+                        v-model="search"
+                        clearable
+                        outlined
+                        label="講義を検索する"
+                        prepend-inner-icon="mdi-magnify"
+                        clear-icon="mdi-close-circle"
+                        hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
+                        autocomplete="off"
+                        @keydown.enter="filterSearch"
+                    />
+                </v-col>
+            </v-row>
 
-        <!-- 表示・検索機能 スマホ -->
-        <v-row class="d-sm-none">
-            <v-col cols="12">
-                <v-text-field
-                    v-model="search"
-                    class="mx-5"
-                    label="講義を検索する"
-                    clearable
-                    outlined
-                    prepend-inner-icon="mdi-magnify"
-                    clear-icon="mdi-close-circle"
-                    hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
-                    @keydown.enter="filterSearch"
-                />
-            </v-col>
-        </v-row>
+            <!-- 表示・検索機能 スマホ -->
+            <v-row class="d-sm-none">
+                <v-col cols="12">
+                    <v-text-field
+                        v-model="search"
+                        class="mx-5"
+                        label="講義を検索する"
+                        clearable
+                        outlined
+                        prepend-inner-icon="mdi-magnify"
+                        clear-icon="mdi-close-circle"
+                        hint="講義名・教員名・年度・学部・クラスなどで検索ができます。"
+                        @keydown.enter="filterSearch"
+                    />
+                </v-col>
+            </v-row>
+        </client-only>
 
         <!-- Alert-->
         <v-row>
