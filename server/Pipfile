@@ -5,8 +5,8 @@ name = "pypi"
 
 [scripts]
 dev = "python3 manage.py runserver 8001"
-lint = "flake8 ."
-format = "autopep8 -i --exclude venv -r ."
+lint = "bash -c 'flake8 . && isort --check .'"
+format = "bash -c 'autopep8 -i --exclude venv -r . && isort .'"
 test  = "python3 manage.py test"
 loaddata = "python3 manage.py loadalldata"
 makemigrations = "python3 manage.py makemigrations"
@@ -38,6 +38,7 @@ Django = "==3.1.7"
 uwsgi = "*"
 
 [dev-packages]
+isort = "*"
 
 [requires]
 python_version = "3.8"

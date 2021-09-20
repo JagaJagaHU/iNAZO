@@ -1,13 +1,11 @@
 import os
 
 import jsonstreams
-
 from django.core.management.base import BaseCommand
 
 from scraping import table
 from scraping.encoder import EnsureAsciiFalseEncoder
 from scraping.tool import GradeScraping
-
 
 MODEL_NAME = 'api.gradeinfo'
 
