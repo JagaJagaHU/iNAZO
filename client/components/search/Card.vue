@@ -45,10 +45,19 @@
             <p class="card-text">
                 クラス：{{ item.group }}
             </p>
+            <p>
+                担当教員名：
+                <router-link
+                    text
+                    :to="`/search/?search=${item.teacher}`"
+                    color="primary"
+                >
+                    {{ item.teacher }}
+                </router-link>
+            </p>
             <p class="card-text">
                 履修者数 : {{ item.numOfStudents }}人
             </p>
-            <p>担当教員名：{{ item.teacher }}</p>
             <p>GPA : {{ item.gpa }}</p>
         </v-card-text>
 

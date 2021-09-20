@@ -113,7 +113,7 @@ export default {
     },
     head () {
         return {
-            title: `${this.items[0]?.subject}` || '',
+            title: this.items[0]?.subject || '',
             meta: [
                 {
                     hid: 'og:description',
