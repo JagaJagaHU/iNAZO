@@ -18,3 +18,6 @@ venv/
 
 # socket file
 inazo.sock
+
+# uwsgi setting file
+uwsgi.ini
