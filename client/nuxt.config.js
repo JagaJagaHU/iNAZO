@@ -31,6 +31,10 @@ export default {
         ]
     },
 
+    publicRuntimeConfig: {
+        isMaintenanceMode: process.env.MAINTENANCE_MODE || 0
+    },
+
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
 
