@@ -40,7 +40,12 @@
         >
             <span>JagaJaga</span>
 
-            <v-icon>mdi-map-marker</v-icon>
+            <v-avatar size="25">
+                <img
+                    src="@/assets/JagaJaga_logo.png"
+                    alt=""
+                >
+            </v-avatar>
         </v-btn>
     </v-bottom-navigation>
 </template>
