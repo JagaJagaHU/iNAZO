@@ -1,11 +1,10 @@
 import time
 
-from tqdm import tqdm
-
+import chromedriver_binary  # noqa
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
-import chromedriver_binary  # noqa
+from tqdm import tqdm
 
 from scraping import table
 
