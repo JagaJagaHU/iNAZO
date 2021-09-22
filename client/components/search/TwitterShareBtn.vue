@@ -30,7 +30,7 @@ const protocol = process.env.PROTOCOL;
 const origin = 'inazo.hu-jagajaga.com';
 
 const content = '成績分布検索サービス - iNAZO';
-const hashtags = '%23iNAZO_HU';
+const hashtags = '%23iNAZO';
 
 export default {
     props: {
