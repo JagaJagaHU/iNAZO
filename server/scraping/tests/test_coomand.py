@@ -1,7 +1,7 @@
 from io import StringIO
 
-from django.test import TestCase, Client
 from django.core.management import call_command
+from django.test import Client, TestCase
 
 from api.models import GradeInfo
 

@@ -1,15 +1,16 @@
 import operator
-from functools import reduce
 import re
+from functools import reduce
 
 from django.db import models
 from django.db.models import F
+from rest_framework.compat import distinct
 from rest_framework.filters import OrderingFilter as BaseOrderingFilter
 from rest_framework.filters import SearchFilter as BaseSearchFilter
-from rest_framework.compat import distinct
 
 # マックス100%でannotateする(そうしなければ誤差が顕著にでる)
-PERCENT = 100
+# 小数にしないとFがint型で計算してしまう
+PERCENT = 100.0
 
 SORT_GRADE_LIST = [
     'f', '-f', 'failure', '-failure', 'a_band', '-a_band'
@@ -42,18 +43,24 @@ class OrderingFilter(BaseOrderingFilter):
                     "f_percent",
                     PERCENT * F('f') / F('numOfStudents')
                 )
+                new_ordering.append(ordering[i] + '_percent')
             elif ordering[i] in ['failure', '-failure']:
                 annotate_kwargs.setdefault(
                     "failure_percent",
                     PERCENT * (F('d') + F('dm') + F('f')) / F('numOfStudents')
                 )
+                new_ordering.append(ordering[i] + '_percent')
+                gpa_ordering = 'gpa' if ordering[i][0] == '-' else '-gpa'
+                new_ordering.append(gpa_ordering)
+
             elif ordering[i] in ['a_band', '-a_band']:
                 annotate_kwargs.setdefault(
                     "a_band_percent",
                     PERCENT * (F('ap') + F('a') + F('am')) / F('numOfStudents')
                 )
-
-            new_ordering.append(ordering[i] + '_percent')
+                new_ordering.append(ordering[i] + '_percent')
+                gpa_ordering = '-gpa' if ordering[i][0] == '-' else 'gpa'
+                new_ordering.append(gpa_ordering)
 
         queryset = queryset.annotate(**annotate_kwargs)
 
