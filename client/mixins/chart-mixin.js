@@ -25,8 +25,8 @@ export default {
                 { text: '新着順', value: '' },
                 { text: 'GPA (降順)', value: '-gpa' },
                 { text: 'GPA (昇順)', value: 'gpa' },
-                { text: '単位取得', value: 'failure' },
-                { text: '落単', value: '-failure' },
+                { text: '単位取得者数', value: 'failure' },
+                { text: '落単者数', value: '-failure' },
                 { text: 'A帯 (降順)', value: '-a_band' },
                 { text: 'A帯 (昇順)', value: 'a_band' },
                 { text: 'F (降順)', value: '-f' }
