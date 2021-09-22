@@ -115,10 +115,10 @@
                     dark
                 >
                     <p class="text-center text-h4 py-5">
-                        シンプルな検索
+                        シェア機能
                     </p>
                     <v-card-subtitle class="text-h6 pb-5">
-                        簡潔で分かりやすい検索窓で講義を検索<br>
+                        ボタン1つで気になる講義をグラフで共有<br>
                     </v-card-subtitle>
                 </v-card>
             </v-col>
