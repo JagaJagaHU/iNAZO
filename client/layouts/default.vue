@@ -21,7 +21,7 @@
 export default {
     data () {
         return {
-            isMaintenanceMode: 0
+            isMaintenanceMode: false
         };
     },
 
