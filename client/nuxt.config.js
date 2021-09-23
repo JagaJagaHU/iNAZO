@@ -58,14 +58,14 @@ export default {
     // https://go.nuxtjs.dev/eslint
         '@nuxtjs/eslint-module',
         '@nuxtjs/vuetify',
-        '@nuxtjs/google-analytics',
         ['@nuxtjs/dotenv', { filename: envFileName }]
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
     // https://go.nuxtjs.dev/axios
-        '@nuxtjs/axios'
+        '@nuxtjs/axios',
+        '@nuxtjs/google-gtag'
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -78,7 +78,7 @@ export default {
 
     },
 
-    googleAnalytics: {
+    'google-gtag': {
         id: 'G-16QBC0CFGJ'
     }
 };
