@@ -19,7 +19,7 @@ reload = "uwsgi --reload /tmp/master_uwsgi.pid"
 [packages]
 asgiref = "==3.3.4"
 autopep8 = "==1.5.7"
-chromedriver-binary = "==90.0.4430.24.0"
+chromedriver-binary = "==95.0.4638.54"
 django-cors-headers = "==3.7.0"
 django-environ = "==0.4.5"
 djangorestframework = "==3.12.4"
