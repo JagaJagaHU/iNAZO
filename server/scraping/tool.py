@@ -104,4 +104,4 @@ class GradeScraping:
 
     def close(self):
         # ブラウザーを終了
-        self.driver.quit()
+        self.driver.close()
