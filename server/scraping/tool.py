@@ -1,10 +1,10 @@
 import time
 
-import chromedriver_binary  # noqa
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 from tqdm import tqdm
+from webdriver_manager.chrome import ChromeDriverManager
 
 from scraping import table
 
@@ -19,7 +19,7 @@ class GradeScraping:
     def __init__(self, termID, facultyID):
         options = Options()
         options.add_argument('--headless')
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         self.driver.implicitly_wait(5)  # seconds
 
         self.termID = termID
