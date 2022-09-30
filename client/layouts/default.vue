@@ -26,6 +26,7 @@ export default {
     },
 
     mounted () {
+        // 環境変数からメンテナンスモードを設定する
         this.isMaintenanceMode = this.$config.isMaintenanceMode;
     }
 };
