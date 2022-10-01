@@ -18,16 +18,7 @@
         />
 
         <!-- Alert-->
-        <v-row>
-            <v-col>
-                <v-alert
-                    v-if="searchResultText"
-                    type="success"
-                >
-                    検索結果：{{ searchResultText }}
-                </v-alert>
-            </v-col>
-        </v-row>
+        <search-success-alart v-if="searchResultText" :search-result-text="searchResultText" />
 
         <!-- main cards -->
         <search-main-container :is-visible="isVisible" :items="items" :chart-grid-col="chartGridCol" @starClick="postBookMark($event)" />
