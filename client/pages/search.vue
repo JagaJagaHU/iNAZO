@@ -1,18 +1,13 @@
 <template>
     <v-container>
-        <!-- pagination -->
-        <v-row>
-            <v-col>
-                <search-pagination
-                    :size="size"
-                    :total-visible="totalVisible"
-                    :current-page="currentPage"
-                    :count="count"
-                    @updatePage="setPageAndGetData"
-                    @input="(page) => (currentPage = page)"
-                />
-            </v-col>
-        </v-row>
+        <search-pagination
+            :size="size"
+            :total-visible="totalVisible"
+            :current-page="currentPage"
+            :count="count"
+            @updatePage="setPageAndGetData"
+            @input="(page) => (currentPage = page)"
+        />
 
         <client-only>
             <!-- 表示・検索機能 PC -->
@@ -107,19 +102,14 @@
         <!-- main cards -->
         <search-main-container :is-visible="isVisible" :items="items" :chart-grid-col="chartGridCol" @starClick="postBookMark($event)" />
 
-        <!-- pagination -->
-        <v-row>
-            <v-col>
-                <search-pagination
-                    :size="size"
-                    :total-visible="totalVisible"
-                    :current-page="currentPage"
-                    :count="count"
-                    @updatePage="setPageAndGetData"
-                    @input="(page) => (currentPage = page)"
-                />
-            </v-col>
-        </v-row>
+        <search-pagination
+            :size="size"
+            :total-visible="totalVisible"
+            :current-page="currentPage"
+            :count="count"
+            @updatePage="setPageAndGetData"
+            @input="(page) => (currentPage = page)"
+        />
     </v-container>
 </template>
 
