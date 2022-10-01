@@ -1,8 +1,7 @@
 <template>
     <v-row class="my-10">
         <v-col
-            class="px-10 py-10"
-            style="background-color: #ECEFF1"
+            class="px-10 py-10 link-card"
         >
             <p class="text-h3 text-center my-10">
                 <v-icon
@@ -54,3 +53,9 @@
         </v-col>
     </v-row>
 </template>
+
+<style scoped>
+.link-card {
+    background-color: #ECEFF1;
+}
+</style>

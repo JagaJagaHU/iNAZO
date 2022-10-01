@@ -2,8 +2,7 @@
     <v-row>
         <v-col cols="12">
             <p
-                class="text-h4 text-sm-h3 text-center"
-                style="margin: 5rem 0rem 5rem"
+                class="text-h4 text-sm-h3 text-center about-title"
             >
                 <span
                     class="
@@ -36,3 +35,9 @@
         </v-row>
     </v-row>
 </template>
+
+<style scoped>
+.about-title {
+    margin: 5rem 0;
+}
+</style>
