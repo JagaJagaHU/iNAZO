@@ -5,10 +5,10 @@
         color="#1976D2"
         dark
     >
-        <p class="text-center text-h4 py-5">
+        <v-card-title class="justify-center text-h5 text-md-h4 pt-5 pb-10 px-0">
             {{ title }}
-        </p>
-        <v-card-subtitle class="text-h6 pb-5">
+        </v-card-title>
+        <v-card-subtitle class="text-subtitle-1 text-md-h6 pb-5">
             {{ contents }}<br>
         </v-card-subtitle>
     </v-card>
