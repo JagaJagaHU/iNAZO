@@ -2,12 +2,12 @@
     <v-row>
         <v-col cols="12">
             <v-parallax
-                class="mb-5 mb-sm-10"
+                class="mb-5 mb-sm-10 px-10 py-10"
                 :src="require('@/assets/background-title.png')"
                 :height="height"
             >
-                <v-row class="mt-16" align="center" justify="center">
-                    <v-col class="text-center" cols="12" sm="6">
+                <v-row align="center" justify="center">
+                    <v-col cols="12" sm="6">
                         <v-img
                             max-height="200"
                             max-width="500"
@@ -15,8 +15,8 @@
                         />
                     </v-col>
                 </v-row>
-                <v-row class="mb-16" align="center" justify="center">
-                    <v-col cols="12" sm="6">
+                <v-row align="center" justify="center">
+                    <v-col cols="12" sm="9" md="6">
                         <v-text-field
                             v-model="search"
                             clearable

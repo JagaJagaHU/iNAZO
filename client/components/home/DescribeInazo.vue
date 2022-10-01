@@ -40,6 +40,12 @@
 
 <style scoped>
 .describe-title {
-    margin: 5rem 0;
+    margin: 2rem 0;
+}
+
+@media screen and (min-width:600px) {
+    .describe-title {
+        margin: 5rem 0;
+    }
 }
 </style>

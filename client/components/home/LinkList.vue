@@ -1,9 +1,9 @@
 <template>
     <v-row class="my-10">
         <v-col
-            class="px-10 py-10 link-card"
+            class="px-10 py-5 link-card"
         >
-            <p class="text-h3 text-center my-10">
+            <p class="text-h3 text-center my-5">
                 <v-icon
                     color="primary"
                     left

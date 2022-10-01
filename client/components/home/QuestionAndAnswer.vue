@@ -1,17 +1,17 @@
 <template>
     <v-row class="my-10">
         <v-col
-            class="px-10 py-10 question-card"
+            class="px-10 py-5 question-card"
         >
-            <p class="text-h3 text-center my-10">
+            <p class="text-h3 text-center my-5">
                 Q&A
             </p>
 
-            <div class="my-16">
+            <div class="my-10 my-sm-16">
                 <p class="text-h6 font-weight-bold">
                     Q. 誰が作っているのですか？
                 </p>
-                <p class="text-h6">
+                <p>
                     A. 北大生応援メディアの
                     <a
                         href="https://hu-jagajaga.com/"
@@ -22,11 +22,11 @@
                 </p>
             </div>
 
-            <div class="my-16">
+            <div class="my-10 my-sm-16">
                 <p class="text-h6 font-weight-bold">
                     Q. このサービスは大学公認ですか？
                 </p>
-                <p class="text-h6">
+                <p>
                     A. 非公認です。
                     <a
                         href="http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
@@ -39,11 +39,11 @@
                 </p>
             </div>
 
-            <div class="my-16">
+            <div class="my-10 my-sm-16">
                 <p class="text-h6 font-weight-bold">
                     Q. バグを見つけました。どうすればいいですか？
                 </p>
-                <p class="text-h6">
+                <p>
                     A. 見つけたバグを
                     <a
                         href="https://forms.gle/tLRiKrShckWsiuXs9"
