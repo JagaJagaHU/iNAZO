@@ -3,7 +3,7 @@
         <!-- pagination -->
         <v-row>
             <v-col>
-                <Pagination
+                <search-pagination
                     :size="size"
                     :total-visible="totalVisible"
                     :current-page="currentPage"
@@ -105,35 +105,12 @@
         </v-row>
 
         <!-- main cards -->
-        <v-row>
-            <template v-if="!isVisible">
-                <v-col
-                    v-for="i in 10"
-                    :key="i"
-                    :cols="chartGridCol"
-                >
-                    <SkeletonCard />
-                </v-col>
-            </template>
-            <template v-else>
-                <v-col
-                    v-for="(item, index) in items"
-                    :key="item.id"
-                    :cols="chartGridCol"
-                >
-                    <Card
-                        :item="item"
-                        :index="index"
-                        @starClick="postBookMark(index)"
-                    />
-                </v-col>
-            </template>
-        </v-row>
+        <search-main-container :is-visible="isVisible" :items="items" :chart-grid-col="chartGridCol" @starClick="postBookMark($event)" />
 
         <!-- pagination -->
         <v-row>
             <v-col>
-                <Pagination
+                <search-pagination
                     :size="size"
                     :total-visible="totalVisible"
                     :current-page="currentPage"

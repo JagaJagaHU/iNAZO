@@ -11,9 +11,9 @@ export default {
     data () {
         return {
             // MainCard
-            items: [],
+            items: [], // 成績データ
             bookMarkIDs: [],
-            isVisible: false,
+            isVisible: false, // 成績取得中はスケルトンを表示
 
             chartGridCol: 12,
             query: {
