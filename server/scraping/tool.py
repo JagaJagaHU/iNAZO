@@ -10,8 +10,8 @@ from scraping import table
 
 # 旧GPAは未対応
 
-HOME_URL = "http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
-RESULT_URL = "http://educate.academic.hokudai.ac.jp/seiseki/GradeDistResult11.aspx"
+HOME_URL = "https://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
+RESULT_URL = "https://educate.academic.hokudai.ac.jp/seiseki/GradeDistResult11.aspx"
 
 
 class GradeScraping:
