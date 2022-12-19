@@ -33,6 +33,7 @@ urllib3 = "==1.26.4"
 Django = "==3.1.7"
 uwsgi = "==2.0.20"
 jsonschema = "==4.4.0"
+webdriver-manager = "*"
 
 [dev-packages]
 mccabe = "==0.6.1"
