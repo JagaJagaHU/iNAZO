@@ -13,7 +13,7 @@ gradescraping = "python3 manage.py gradescraping"
 makemigrations = "python3 manage.py makemigrations"
 migrate = "python3 manage.py migrate"
 collectstatic = "python3 manage.py collectstatic"
-start = "uwsgi --ini uwsgi.ini &"
+start = "bash -c \"uwsgi --ini uwsgi.ini & \""
 reload = "uwsgi --reload /tmp/master_uwsgi.pid"
 
 [packages]
