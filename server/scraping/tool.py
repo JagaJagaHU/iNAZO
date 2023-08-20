@@ -1,17 +1,17 @@
 import time
 
-import chromedriver_binary  # noqa
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 from tqdm import tqdm
+from webdriver_manager.chrome import ChromeDriverManager
 
 from scraping import table
 
 # 旧GPAは未対応
 
-HOME_URL = "http://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
-RESULT_URL = "http://educate.academic.hokudai.ac.jp/seiseki/GradeDistResult11.aspx"
+HOME_URL = "https://educate.academic.hokudai.ac.jp/seiseki/GradeDistSerch.aspx"
+RESULT_URL = "https://educate.academic.hokudai.ac.jp/seiseki/GradeDistResult11.aspx"
 
 
 class GradeScraping:
@@ -19,7 +19,7 @@ class GradeScraping:
     def __init__(self, termID, facultyID):
         options = Options()
         options.add_argument('--headless')
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         self.driver.implicitly_wait(5)  # seconds
 
         self.termID = termID
@@ -52,7 +52,6 @@ class GradeScraping:
         time.sleep(1)
 
     def getItems(self):
-
         if self.driver.current_url != RESULT_URL:
             raise Exception('結果ページに移動してください。')
 
