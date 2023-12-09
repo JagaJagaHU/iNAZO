@@ -17,11 +17,10 @@ class Command(BaseCommand):
     help = 'JSONファイルから保存していないデータをDBに登録します'
 
     def add_arguments(self, parser):
-        parser.add_argument('--testdir')  # テストディレクトリのパス
+        parser.add_argument('--testdir', default="scraping/data/")  # テストディレクトリのパス
 
     def handle(self, *args, **options):
-        # testdirが未入力なら本番用のパスを設定する
-        dataDir = options.get("testdir", "scraping/data/")
+        dataDir = options.get("testdir")
         # 入力されたディレクトリのバリデーション
         if not os.path.isdir(dataDir):
             raise FileNotFoundError(f"{dataDir}はディレクトリへのパスではありません")
